@@ -26,6 +26,7 @@ Group:		Applications/Games
 Source0:	%{name}-%{_snapshot}.tar.bz2
 Source1:	%{name}.conf
 Source2:	%{name}-servers.tgz
+# Source2-md5: e30556f153d979860bc2e3a9ed598b2b
 Source3:	%{name}.png
 URL:		http://www.%{name}.net/
 BuildRequires:	OpenGL-devel
