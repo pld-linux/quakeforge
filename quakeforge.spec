@@ -445,8 +445,8 @@ rm -rf $RPM_BUILD_ROOT
 %postun libs-sw -p /sbin/ldconfig
 
 %files common
-%doc NEWS TODO ChangeLog doc/[!Mm]*
 %defattr(644,root,root,755)
+%doc NEWS TODO ChangeLog doc/[!Mm]*
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/%{name}.conf
 %attr(755,root,root) %{_libdir}/libQFcd.so.*.*.*
