@@ -1,4 +1,8 @@
 #
+# todo:
+# - fix build requirements for 3dfx (there is no BR)
+# - bcond for 3dfx
+#
 # Conditional build:
 # _without_alsa - without ALSA
 # _without_svga - without SVGAlib support
@@ -14,12 +18,11 @@
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
-Version:	0.5.1.20020822
-Release:	3
+Version:	0.5.2
+Release:	0.1
 License:	GPL
 Group:		Applications/Games
-# From http://www.quakeforge.net/files/quakeforge-current.tar.bz2
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	http://download.sourceforge.net/quake/%{name}-%{version}.tar.bz2
 Source1:	%{name}.png
 Source2:	%{name}-servers.tgz
 URL:		http://www.%{name}.net/
@@ -318,14 +321,9 @@ Wtyczka SDL dla QuakeForge udostêpnia cyfrowe wyj¶cie d¼wiêku dla
 klientów gry.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 %build
-aclocal
-autoheader
-%{__libtoolize} --automake
-%{__automake}
-%{__autoconf}
 %configure \
 	--with-x \
 	--enable-vidmode \
@@ -477,7 +475,7 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/cd_xmms.la
 %attr(755,root,root) %{_libdir}/%{name}/console_client.la
 %attr(755,root,root) %{_libdir}/%{name}/console_server.la
-%{!?_without_alsa:%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa0_5.la}
+%{!?_without_alsa:%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa*.la}
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.la
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_null.la
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_oss.la
@@ -507,7 +505,7 @@ fi
 %{_libdir}/%{name}/cd_xmms.a
 %{_libdir}/%{name}/console_client.a
 %{_libdir}/%{name}/console_server.a
-%{!?_without_alsa:%{_libdir}/%{name}/snd_output_alsa0_5.a}
+%{!?_without_alsa:%{_libdir}/%{name}/snd_output_alsa*.a}
 %{_libdir}/%{name}/snd_output_disk.a
 %{_libdir}/%{name}/snd_output_null.a
 %{_libdir}/%{name}/snd_output_oss.a
@@ -600,7 +598,7 @@ fi
 %if %{?_without_alsa:0}%{!?_without_alsa:1}
 %files snd-alsa
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa0_5.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa*.so*
 %endif
 
 %files snd-oss
