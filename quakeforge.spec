@@ -1,4 +1,12 @@
 #
+# TODO:
+# - check video/audio plugins usability
+# - check game mods
+# - cleanups
+# - could some of 'proper license' guys check qwprogs.dat license?
+#   This file is freely available over the internet so it's at least
+#   distributable I think (this file is needed by QuakeWorld server)
+#
 # Conditional build:
 %bcond_without	alsa		# without ALSA
 %bcond_without	svga		# without SVGAlib & 3dfx support
@@ -7,13 +15,16 @@ Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
 Version:	0.5.5
-Release:	0.1
+Release:	0.6
 License:	GPL
 Group:		Applications/Games
 Source0:	http://dl.sourceforge.net/quake/%{name}-%{version}.tar.bz2
 # Source0-md5:	b750b491ce24135f1a4a1360029de3a2
 Source1:	%{name}.conf
 Source2:	%{name}.png
+Source3:	nq-serverd
+Source4:	qw-serverd
+Source5:	qwprogs.dat
 #Patch0:		%{name}-alsa.patch
 Patch1:		%{name}-svga-noasm.patch
 #Patch2:		%{name}-libdir.patch
@@ -230,6 +241,21 @@ QuakeForge - native Linux CD plugin.
 QuakeForge - wtyczka CD u¿ywaj±ca mechanizmów charakterystycznych dla
 Linuksa.
 
+%package cd-file
+Summary:	QuakeForge - File CD plugin
+Summary(pl):	QuakeForge - wtyczka CD
+Group:		Applications/Games
+Requires:	%{name}-common = %{version}-%{release}
+
+%description cd-file
+QuakeForge - file based CD plugin, oggs, wavs and midis can be used
+for background music. Default CD plugin for all platforms.
+
+%description cd-file -l pl
+QuakeForge - oprta o pliki wtyczka CD, pliki ogg, wav i mid mog±
+byæ u¿yte jako podk³ad muzyczny. Domy¶lna wtyczka CD dla wszystkich
+platform.
+
 %package cd-sdl
 Summary:	QuakeForge - SDL CD plugin
 Summary(pl):	QuakeForge - wtyczka CD dla SDL
@@ -382,6 +408,8 @@ ln -sf %{_sysconfdir}/%{name}/qw-server.cfg server.cfg
 cd -
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+install %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT/etc/rc.d/init.d/
+install %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/qw
 
 qfver="glx sdl sdl32 sgl x11"
 
@@ -547,7 +575,7 @@ fi
 %attr(755,root,root) %{_bindir}/nq-server
 %attr(755,root,root) %{_libdir}/%{name}/console_server.so
 %{_datadir}/%{name}/qw/server.cfg
-#%attr(754,root,root) /etc/rc.d/init.d/*-[!m]*
+%attr(754,root,root) /etc/rc.d/init.d/*-[!m]*
 
 %files utils
 %defattr(644,root,root,755)
@@ -612,6 +640,10 @@ fi
 %files cd-linux
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/cd_linux.so
+
+%files cd-file
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/cd_file.so
 
 %files cd-sdl
 %defattr(644,root,root,755)
