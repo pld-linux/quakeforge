@@ -6,22 +6,20 @@
 %ifnarch %{ix86} alpha
 %undefine	with_svga
 %endif
-%define		_snapshot	20030214
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
-Version:	0.5.2
-Release:	2.%{_snapshot}.3
+Version:	0.5.4
+Release:	1
 License:	GPL
 Group:		Applications/Games
-#Source0:	http://dl.sourceforge.net/quake/%{name}-%{version}.tar.bz2
-# From http://www.quakeforge.org/files/quakeforge-current.tar.bz2
-Source0:	%{name}-%{_snapshot}.tar.bz2
-# Source0-md5:	02de8d66e14c2422e8b5bef216963ef0
+Source0:	http://dl.sourceforge.net/quake/%{name}-%{version}.tar.bz2
+# Source0-md5:	63d56b50fddfe81c877e67981d4c013f
 Source1:	%{name}.conf
 Source2:	%{name}-servers.tgz
 # Source2-md5:	e30556f153d979860bc2e3a9ed598b2b
 Source3:	%{name}.png
+Patch0:		%{name}-alsa.patch
 URL:		http://www.quakeforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel
@@ -31,13 +29,14 @@ BuildRequires:	autoconf
 BuildRequires:	automake >= 1.6
 BuildRequires:	bison
 BuildRequires:	libtool
+BuildRequires:	libvorbis-devel
 %{?with_svga:BuildRequires:	svgalib-devel}
-BuildRequires:	texinfo
 BuildRequires:	xmms-devel
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
+%define		specflags	-ffast-math -fomit-frame-pointer
 
 %description
 3D game engine based on id Software's Quake engine.
@@ -49,7 +48,7 @@ Silnik gry 3D bazuj±cy na silniku Quake id Software.
 Summary:	QuakeForge - Common files
 Summary(pl):	QuakeForge - pliki wspólne
 Group:		Applications/Games
-Obsoletes:	%{name} < 0.5.2-2.20030214.2
+Obsoletes:	quakeforge < 0.5.2-2.20030214.2
 
 %description common
 QuakeForge is a source port of Quake and QuakeWorld, the successors to
@@ -71,7 +70,7 @@ Ten pakiet zawiera wspólne pliki dla wszystkich wersji gry.
 Summary:	QuakeForge - headers and devel libs
 Summary(pl):	QuakeForge - pliki nag³ówkowe
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description devel
 QuakeForge - headers and devel libs
@@ -83,7 +82,7 @@ QuakeForge - pliki nag³ówkowe
 Summary:	QuakeForge 3D game engine - static libraries
 Summary(pl):	Silnik gry 3D QuakeForge - biblioteki statyczne
 Group:		Applications/Games
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 QuakeForge 3D game engine - static libraries
@@ -97,7 +96,7 @@ Summary(pl):	Serwery QuakeForge
 Group:		Applications/Games
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description servers
 QuakeForge Servers.
@@ -109,7 +108,7 @@ Serwery QuakeForge.
 Summary:	QuakeForge - utility programs
 Summary(pl):	QuakeForge - programy narzêdziowe
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description utils
 QuakeForge - utility programs.
@@ -121,7 +120,7 @@ QuakeForge - programy narzêdziowe.
 Summary:	QuakeForge client for 3dfx
 Summary(pl):	Klient QuakeForge pod 3dfx
 Group:		Applications/Games
-Requires:	%{name}-libs-gl = %{version}
+Requires:	%{name}-libs-gl = %{version}-%{release}
 
 %description 3dfx
 Quakeforge client for 3dfx device.
@@ -133,7 +132,7 @@ Klient QuakeForge pod 3dfx.
 Summary:	QuakeForge client for fbdev
 Summary(pl):	Klient QuakeForge pod fbdev
 Group:		Applications/Games
-Requires:	%{name}-libs-sw = %{version}
+Requires:	%{name}-libs-sw = %{version}-%{release}
 
 %description fbdev
 Quakeforge client for framebuffer device.
@@ -144,8 +143,8 @@ Klient QuakeForge pod framebuffer.
 %package glx
 Summary:	QuakeForge glx client
 Summary(pl):	Klient QuakeForge glx
-Group:		Applications/Games
-Requires:	%{name}-libs-gl = %{version}
+Group:		X11/Applications/Games
+Requires:	%{name}-libs-gl = %{version}-%{release}
 
 %description glx
 Quakeforge client for X Window that uses OpenGL through GLX extension.
@@ -158,7 +157,7 @@ GLX.
 Summary:	QuakeForge client for SDL with 8-bit color
 Summary(pl):	Klient QuakeForge pod SDL z 8-bitowym kolorem
 Group:		Applications/Games
-Requires:	%{name}-libs-sw = %{version}
+Requires:	%{name}-libs-sw = %{version}-%{release}
 
 %description sdl
 Quakeforge client for SDL with 8-bit color.
@@ -170,7 +169,7 @@ Klient QuakeForge pod SDL z 8-bitowym kolorem.
 Summary:	QuakeForge client for SDL with various color depths support
 Summary(pl):	Klient QuakeForge pod SDL z obs³ug± ró¿nych g³êbi kolorów
 Group:		Applications/Games
-Requires:	%{name}-libs-sw = %{version}
+Requires:	%{name}-libs-sw = %{version}-%{release}
 
 %description sdl32
 Quakeforge client for SDL with various color depths support (8, 16,
@@ -183,8 +182,8 @@ Klient QuakeForge pod SDL z obs³ug± ró¿nych g³êbi kolorów (8, 16 i
 %package sgl
 Summary:	QuakeForge client for SDL with GL
 Summary(pl):	Klient QuakeForge pod SDL z obs³ug± GL
-Group:		Applications/Games
-Requires:	%{name}-libs-gl = %{version}
+Group:		X11/Applications/Games
+Requires:	%{name}-libs-gl = %{version}-%{release}
 
 %description sgl
 QuakeForge client for SDL that uses OpenGL through SDL.
@@ -196,8 +195,8 @@ Klient QuakeForge pod SDL, u¿ywaj±cy OpenGL za po¶rednictwem SDL.
 Summary:	QuakeForge client for svgalib
 Summary(pl):	Klient QuakeForge pod svgalib
 Group:		Applications/Games
-Requires:	%{name}-libs-sw = %{version}
-Obsoletes:	%{name}-svgalib
+Requires:	%{name}-libs-sw = %{version}-%{release}
+Obsoletes:	quakeforge-svgalib
 
 %description svga
 Quakeforge client for svgalib.
@@ -208,8 +207,8 @@ Klient QuakeForge pod svgalib.
 %package x11
 Summary:	QuakeForge client for x11
 Summary(pl):	Klient QuakeForge pod x11
-Group:		Applications/Games
-Requires:	%{name}-libs-sw = %{version}
+Group:		X11/Applications/Games
+Requires:	%{name}-libs-sw = %{version}-%{release}
 
 %description x11
 Quakeforge client for x11.
@@ -221,7 +220,7 @@ Klient QuakeForge pod x11.
 Summary:	QuakeForge - Linux CD plugin
 Summary(pl):	QuakeForge - wtyczka CD dla Linuksa
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description cd-linux
 QuakeForge - native Linux CD plugin.
@@ -234,7 +233,7 @@ Linuksa.
 Summary:	QuakeForge - SDL CD plugin
 Summary(pl):	QuakeForge - wtyczka CD dla SDL
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description cd-sdl
 QuakeForge - CD plugin that uses SDL to access drive.
@@ -246,7 +245,7 @@ QuakeForge - wtyczka CD odwo³uj±ca siê do odtwarzacza poprzez SDL.
 Summary:	QuakeForge - xmms CD plugin
 Summary(pl):	QuakeForge - wtyczka CD dla xmms
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description cd-xmms
 QuakeForge - CD plugin that uses xmms to access drive.
@@ -258,7 +257,7 @@ QuakeForge - wtyczka CD odwo³uj±ca siê do odtwarzacza poprzez xmms.
 Summary:	QuakeForge - OpenGL renderer libraries
 Summary(pl):	QuakeForge - biblioteki renderujace OpenGL
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 Requires:	OpenGL
 
 %description libs-gl
@@ -271,7 +270,7 @@ QuakeForge - biblioteki renderuj±ce z u¿yciem OpenGL.
 Summary:	QuakeForge - Software renderer libraries
 Summary(pl):	QuakeForge - biblioteki do renderowania programowego
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description libs-sw
 QuakeForge - Software renderer libraries.
@@ -283,7 +282,7 @@ QuakeForge - biblioteki do renderowania programowego.
 Summary:	ALSA sound plugin for QuakeForge
 Summary(pl):	Wtyczka d¼wiêkowa ALSA dla QuakeForge
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description snd-alsa
 The ALSA plugin for QuakeForge provides digital audio output for
@@ -297,7 +296,7 @@ klientów gry.
 Summary:	OSS sound plugin for QuakeForge
 Summary(pl):	Wtyczka d¼wiêkowa OSS dla QuakeForge
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description snd-oss
 The OSS plugin for QuakeForge provides digital audio output (using
@@ -321,7 +320,7 @@ k³opoty - spróbuj u¿yæ pakietu %{name}-snd-alsa.
 Summary:	SDL sound plugin for QuakeForge
 Summary(pl):	Wtyczka d¼wiêkowa SDL dla QuakeForge
 Group:		Applications/Games
-Requires:	%{name}-common = %{version}
+Requires:	%{name}-common = %{version}-%{release}
 
 %description snd-sdl
 The SDL plugin for QuakeForge provides digital audio output for
@@ -332,7 +331,8 @@ Wtyczka SDL dla QuakeForge udostêpnia cyfrowe wyj¶cie d¼wiêku dla
 klientów gry.
 
 %prep
-%setup -q -n %{name}
+%setup -q
+%patch0 -p1
 
 %build
 %{__aclocal}
@@ -340,19 +340,21 @@ klientów gry.
 %{__libtoolize} --automake
 %{__automake}
 %{__autoconf}
-# --without-arch not to override -march passed by %%configure
+# --without-arch --disable-debug --disable-optimize mean only not to
+# override our CFLAGS passed by %%configure
 %configure \
 	--with-x \
 	--without-arch \
+	--disable-debug \
+	--disable-optimize \
 	--enable-vidmode \
 	--enable-dga \
 	--with-plugin-path=%{_libdir}/%{name} \
 	--with-sharepath=%{_datadir}/%{name} \
 	--with-global-cfg="%{_sysconfdir}/%{name}/%{name}.conf" \
 	--with-user-cfg="~/.%{name}/%{name}.conf" \
-	%{!?with_svga:--disable-3dfx} \
-	%{!?with_alsa:--disable-alsa} \
-	%{!?with_svga:--without-svga}
+	--with-clients=fbdev,glx,sdl,sdl32,sgl,%{?with_svga:3dfx,svga,}x11 \
+	%{!?with_alsa:--disable-alsa}
 
 %{__make}
 
@@ -363,7 +365,7 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,%{name}},%{_datadir}/%{name}/qw} \
-	$RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Games}
+	$RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
 
@@ -375,26 +377,42 @@ cd $RPM_BUILD_ROOT%{_datadir}/%{name}/qw
 ln -sf %{_sysconfdir}/%{name}/qw-server.cfg server.cfg
 cd -
 
-
 cd $RPM_BUILD_ROOT/etc/rc.d/init.d
 tar zxfv %{SOURCE2}
 cd -
 
 install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-qfver="%{?with_3dfx:3dfx }glx sdl sdl32 sgl x11"
+qfver="glx sdl sdl32 sgl x11"
 
 for f in $qfver; do
-	desktopfile="$RPM_BUILD_ROOT%{_applnkdir}/Games/qw-client-$f.desktop"
-	echo "[Desktop Entry]\nName=QuakeWorld ($f)\nExec=qw-client-$f \
-	\nIcon=%{name}.png\nTerminal=0\nType=Application" > $desktopfile
-
-	desktopfile="$RPM_BUILD_ROOT%{_applnkdir}/Games/nq-$f.desktop"
-	echo "[Desktop Entry]\nName=Quake ($f)\nExec=nq-$f \
-	\nIcon=%{name}.png\nTerminal=0\nType=Application" > $desktopfile
+	desktopfile="$RPM_BUILD_ROOT%{_desktopdir}/qw-client-$f.desktop"
+	cat >$desktopfile <<EOF
+[Desktop Entry]
+Encoding=UTF-8
+Name=QuakeWorld ($f)
+Comment=QuakeWorld client ($f version)
+Comment[pl]=Klient QuakeWorld (w wersji $f)
+Exec=qw-client-$f
+Icon=%{name}.png
+Terminal=false
+Type=Application
+Categories=Game;FirstPersonGame;
+EOF
+	desktopfile="$RPM_BUILD_ROOT%{_desktopdir}/nq-$f.desktop"
+	cat >$desktopfile <<EOF
+[Desktop Entry]
+Encoding=UTF-8
+Name=Quake ($f)
+Exec=nq-$f
+Icon=%{name}.png
+Terminal=false
+Type=Application
+Categories=Game;FirstPersonGame;
+EOF
 done
 
-rm -rf `find . -name CVS`
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/*.{la,a}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -432,16 +450,16 @@ fi
 %doc NEWS TODO ChangeLog doc/[!Mm]*
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/%{name}.conf
-%attr(755,root,root) %{_libdir}/libQFcd.so.*
-%attr(755,root,root) %{_libdir}/libQFconsole.so.*
-%attr(755,root,root) %{_libdir}/libQFcsqc.so.*
-%attr(755,root,root) %{_libdir}/libQFgamecode.so.*
-%attr(755,root,root) %{_libdir}/libQFgamecode_builtins.so.*
-%attr(755,root,root) %{_libdir}/libQFgib.so.*
-%attr(755,root,root) %{_libdir}/libQFjs.so.*
-%attr(755,root,root) %{_libdir}/libQFmodels.so.*
-%attr(755,root,root) %{_libdir}/libQFsound.so.*
-%attr(755,root,root) %{_libdir}/libQFutil.so.*
+%attr(755,root,root) %{_libdir}/libQFcd.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFconsole.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFcsqc.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFgamecode.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFgamecode_builtins.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFgib.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFjs.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFmodels.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFsound.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFutil.so.*.*.*
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/console_client.so
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.so
@@ -482,16 +500,6 @@ fi
 %{_libdir}/libQFsound.la
 %attr(755,root,root) %{_libdir}/libQFutil.so
 %{_libdir}/libQFutil.la
-%{_libdir}/%{name}/cd_linux.la
-%{_libdir}/%{name}/cd_sdl.la
-%{_libdir}/%{name}/cd_xmms.la
-%{_libdir}/%{name}/console_client.la
-%{_libdir}/%{name}/console_server.la
-%{?with_alsa:%{_libdir}/%{name}/snd_output_alsa*.la}
-%{_libdir}/%{name}/snd_output_disk.la
-%{_libdir}/%{name}/snd_output_oss.la
-%{_libdir}/%{name}/snd_output_sdl.la
-%{_libdir}/%{name}/snd_render_default.la
 %{_includedir}/QF
 %{_mandir}/man1/qfcc.1*
 
@@ -511,16 +519,6 @@ fi
 %{_libdir}/libQFrenderer_sw32.a
 %{_libdir}/libQFsound.a
 %{_libdir}/libQFutil.a
-%{_libdir}/%{name}/cd_linux.a
-%{_libdir}/%{name}/cd_sdl.a
-%{_libdir}/%{name}/cd_xmms.a
-%{_libdir}/%{name}/console_client.a
-%{_libdir}/%{name}/console_server.a
-%{?with_alsa:%{_libdir}/%{name}/snd_output_alsa*.a}
-%{_libdir}/%{name}/snd_output_disk.a
-%{_libdir}/%{name}/snd_output_oss.a
-%{_libdir}/%{name}/snd_output_sdl.a
-%{_libdir}/%{name}/snd_render_default.a
 %{_libdir}/ruamoko
 
 %files servers
@@ -554,7 +552,6 @@ fi
 %files 3dfx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*3dfx
-%{_applnkdir}/Games/*3dfx.desktop
 %endif
 
 %files fbdev
@@ -564,22 +561,22 @@ fi
 %files glx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*glx
-%{_applnkdir}/Games/*glx.desktop
+%{_desktopdir}/*glx.desktop
 
 %files sdl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*sdl
-%{_applnkdir}/Games/*sdl.desktop
+%{_desktopdir}/*sdl.desktop
 
 %files sdl32
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*sdl32
-%{_applnkdir}/Games/*sdl32.desktop
+%{_desktopdir}/*sdl32.desktop
 
 %files sgl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*sgl
-%{_applnkdir}/Games/*sgl.desktop
+%{_desktopdir}/*sgl.desktop
 
 %if %{with svga}
 %files svga
@@ -590,7 +587,7 @@ fi
 %files x11
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*x11
-%{_applnkdir}/Games/*x11.desktop
+%{_desktopdir}/*x11.desktop
 
 %files cd-linux
 %defattr(644,root,root,755)
@@ -606,13 +603,13 @@ fi
 
 %files libs-gl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQFmodels_gl.so.*
-%attr(755,root,root) %{_libdir}/libQFrenderer_gl.so.*
+%attr(755,root,root) %{_libdir}/libQFmodels_gl.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFrenderer_gl.so.*.*.*
 
 %files libs-sw
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQFmodels_sw.so.*
-%attr(755,root,root) %{_libdir}/libQFrenderer_sw32.so.*
+%attr(755,root,root) %{_libdir}/libQFmodels_sw.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFrenderer_sw32.so.*.*.*
 
 %if %{with alsa}
 %files snd-alsa
