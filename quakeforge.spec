@@ -22,6 +22,7 @@ Source3:	%{name}.png
 Patch0:		%{name}-alsa.patch
 Patch1:		%{name}-svga-noasm.patch
 Patch2:		%{name}-libdir.patch
+Patch3:		%{name}-noio.patch
 URL:		http://www.quakeforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel
@@ -337,6 +338,7 @@ klientów gry.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__aclocal}
