@@ -24,6 +24,7 @@ Group:		Applications/Games
 #Source0:	http://dl.sourceforge.net/quake/%{name}-%{version}.tar.bz2
 # From http://www.quakeforge.org/files/quakeforge-current.tar.bz2
 Source0:	%{name}-%{_snapshot}.tar.bz2
+# Source0-md5:	02de8d66e14c2422e8b5bef216963ef0
 Source1:	%{name}.conf
 Source2:	%{name}-servers.tgz
 # Source2-md5: e30556f153d979860bc2e3a9ed598b2b
