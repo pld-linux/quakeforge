@@ -1,0 +1,14 @@
+--- quakeforge-0.5.4/libs/video/targets/vid_svgalib.c.orig	2003-01-31 18:19:55.000000000 +0000
++++ quakeforge-0.5.4/libs/video/targets/vid_svgalib.c	2004-04-11 17:00:48.000000000 +0000
+@@ -423,7 +423,11 @@
+ 	}
+ 
+ 	if (VGA_planar) {
++#ifdef USE_INTEL_ASM
+ 		VGA_UpdatePlanarScreen (vid.buffer);
++#else
++		/* TODO if sb wants to use planar VGA modes on !x86 */
++#endif
+ 	} else if (vid_redrawfull->int_val) {
+ 		int         total = vid.rowbytes * vid.height;
+ 		int         offset;
