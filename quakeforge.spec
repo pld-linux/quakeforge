@@ -20,6 +20,9 @@ Source0:	http://dl.sourceforge.net/quake/%{name}-%{version}.tar.bz2
 # Source0-md5:	b750b491ce24135f1a4a1360029de3a2
 Source1:	%{name}.conf
 Source2:	%{name}.png
+Source3:	nq-serverd
+Source4:	qw-serverd
+Source5:	qwprogs.dat
 #Patch0:		%{name}-alsa.patch
 Patch1:		%{name}-svga-noasm.patch
 #Patch2:		%{name}-libdir.patch
@@ -400,6 +403,8 @@ touch $RPM_BUILD_ROOT%{_datadir}/%{name}/tracklist.cfg
 touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/qw-server.cfg
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+install %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT/etc/rc.d/init.d/
+install %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/qw
 
 qfver="glx sdl sdl32 sgl x11"
 
@@ -443,6 +448,38 @@ rm -rf $RPM_BUILD_ROOT
 
 %post 	libs-sw -p /sbin/ldconfig
 %postun libs-sw -p /sbin/ldconfig
+
+%post servers
+/sbin/chkconfig --add qw-serverd
+if [ -f /var/lock/subsys/qw-serverd ]; then
+	/etc/rc.d/init.d/qw-serverd restart 1>&2
+else
+	%banner %{name}-servers -e << EOF
+Run \"/etc/rc.d/init.d/qw-serverd start\" to start QuakeWorld Server.
+EOF
+fi
+/sbin/chkconfig --add nq-serverd
+if [ -f /var/lock/subsys/nq-serverd ]; then
+	/etc/rc.d/init.d/nq-serverd restart 1>&2
+else
+	%banner %{name}-servers -e << EOF
+Run \"/etc/rc.d/init.d/nq-serverd start\" to start NQuake Server.
+EOF
+fi
+
+%preun servers
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/qw-serverd ]; then
+		/etc/rc.d/init.d/qw-serverd stop 1>&2
+	fi
+	/sbin/chkconfig --del qw-serverd
+fi
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/nq-serverd ]; then
+		/etc/rc.d/init.d/nq-serverd stop 1>&2
+	fi
+	/sbin/chkconfig --del nq-serverd
+fi
 
 %files common
 %defattr(644,root,root,755)
@@ -533,6 +570,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qw-server
 %attr(755,root,root) %{_bindir}/nq-server
 %attr(755,root,root) %{_libdir}/%{name}/console_server.so
+%attr(754,root,root) /etc/rc.d/init.d/*-[!m]*
+%{_datadir}/%{name}/qw/*
 
 %files utils
 %defattr(644,root,root,755)
