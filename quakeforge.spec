@@ -6,7 +6,7 @@ Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
 Version:	0.5.1.20020712
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Games
 # From http://www.quakeforge.net/files/quakeforge-current.tar.bz2
@@ -306,6 +306,9 @@ for f in $qfver; do
 	\nIcon=%{name}.png\nTerminal=0\nType=Application" > $desktopfile
 done
 
+mv doc/man/%{name}* $RPM_BUILD_ROOT%{_mandir}/man1
+rm -rf doc/{CVS,Makefile*,man,config/{CVS,gib/CVS},data/{CVS,docs/CVS},ideas/CVS}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -371,7 +374,7 @@ fi
 %attr(755,root,root)%{_libdir}/%{name}/libsnd_render_default.so*
 %{_datadir}/games/%{name}/id1/menu.dat*
 %{_pixmapsdir}/%{name}.png
-
+%{_mandir}/man1/%{name}.1.gz
 %files cd-linux
 %defattr(644,root,root,755)
 %attr(755,root,root)%{_libdir}/%{name}/libcd_linux.so*
