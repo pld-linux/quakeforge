@@ -93,3 +93,50 @@ diff -Nru quakeforge-0.3.0/configure.in quakeforge-0.3.0.new/configure.in
  
  check_pipe=no
  if test "x$GCC" = xyes; then
+diff -uNr quakeforge-0.3.0.old/configure.in quakeforge-0.3.0/configure.in
+--- quakeforge-0.3.0.old/configure.in	Mon Aug 12 10:50:44 2002
++++ quakeforge-0.3.0/configure.in	Mon Aug 12 11:03:35 2002
+@@ -10,7 +10,6 @@
+ 	exit 1
+ )
+ 
+-
+ dnl This is the only place where the package version appears
+ AM_INIT_AUTOMAKE(quakeforge, 0.3.0)
+ 
+@@ -45,6 +44,15 @@
+ 		;;
+ esac
+ 
++AC_DEFUN([AM_PROG_AS],
++[# By default we simply use the C compiler to build assembly code.
++AC_REQUIRE([AC_PROG_CC])
++: ${CCAS='$(CC)'}
++# Set ASFLAGS if not already set.
++: ${CCASFLAGS='$(CFLAGS)'}
++AC_SUBST(CCAS)
++AC_SUBST(CCASFLAGS)])
++
+ dnl ==================================================================
+ dnl Checks for programs.
+ dnl ==================================================================
+@@ -52,6 +60,7 @@
+ AC_PROG_INSTALL
+ AC_PROG_CC
+ AC_PROG_CPP
++
+ AC_PROG_LN_S
+ AC_PROG_RANLIB
+ AM_PROG_LEX
+diff -uNr quakeforge-0.3.0/configure.in quakeforge-0.3.0.new/configure.in
+--- quakeforge-0.3.0/configure.in	Mon Aug 12 11:51:06 2002
++++ quakeforge-0.3.0.new/configure.in	Mon Aug 12 11:51:54 2002
+@@ -1338,6 +1338,8 @@
+ fi
+ AC_SUBST(TARGETS)
+ 
++AM_PROG_AS
++
+ dnl Output files
+ AC_OUTPUT(
+ 	RPM/quakeforge.spec
