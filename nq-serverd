@@ -1,10 +1,12 @@
 #!/bin/sh
-# qw-serverd
 #
-# chkconfig:4 98 10
-# description: NQuake Server
-# Functions library
+# nq-serverd	nq-serverd NetQuake server
+#
+# chkconfig:	345 100 100
+#
+# description: 	nq-serverd NetQuake Server
 
+# Functions library
 . /etc/rc.d/init.d/functions
 
 # While nq-server doesn't work without "map" option,
@@ -16,13 +18,13 @@ case "$1" in
   start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/nq-serverd ]; then
-		msg_starting "NQuake Server"
+		msg_starting "NetQuake Server"
 		busy
     		/usr/bin/nq-server +map $map > /dev/null &
 		deltext
 		ok
 	else
-		msg_Already_Running "NQuake Server"
+		msg_already_running "NetQuake Server"
 	        exit 1
 	fi
 	touch /var/lock/subsys/nq-serverd
@@ -34,7 +36,7 @@ case "$1" in
                 killproc nq-server
                 rm -f /var/lock/subsys/nq-serverd
         else
-                msg_Not_Running "NQuake Server"
+                msg_not_running "NQuake Server"
                 exit 1
 	fi
 	;;
@@ -47,7 +49,7 @@ case "$1" in
 	exit $?
 	;;
   *)
-	msg_Usage "$0 {start|stop|restart|reload|status}"
+	msg_usage "$0 {start|stop|restart|reload|status}"
 	exit 1
 esac
 

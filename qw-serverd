@@ -1,10 +1,12 @@
 #!/bin/sh
-# qw-serverd
 #
-# chkconfig:4 98 10
-# description: QuakeWorld Server
-# Functions library
+# qw-serverd	qw-serverd QuakeWorld Server
+#
+# chkconfig:	4 100 100
+#
+# description:	qw-serverd QuakeWorld Server
 
+# Functions library
 . /etc/rc.d/init.d/functions
 
 case "$1" in
@@ -17,7 +19,7 @@ case "$1" in
 		deltext
 		ok
 	else
-		msg_Already_Running "QuakeWorld Server"
+		msg_already_running "QuakeWorld Server"
 	        exit 1
 	fi
 	touch /var/lock/subsys/qw-serverd
@@ -29,7 +31,7 @@ case "$1" in
                 killproc qw-server
                 rm -f /var/lock/subsys/qw-serverd
         else
-                msg_Not_Running "QuakeWorld Server"
+                msg_not_running "QuakeWorld Server"
                 exit 1
 	fi
 	;;
@@ -42,7 +44,7 @@ case "$1" in
 	exit $?
 	;;
   *)
-	msg_Usage "$0 {start|stop|restart|reload|status}"
+	msg_usage "$0 {start|stop|restart|reload|status}"
 	exit 1
 esac
 
