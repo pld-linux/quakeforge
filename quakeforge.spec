@@ -1,4 +1,8 @@
 #
+# TODO: /usr/lib/quakeforge vs /usr/lib/games/quakeforge inconsequence
+#       (both should be "games" paths or not;
+#	 BTW, /usr/{lib,share}/games is for binaries from /usr/games)
+#
 # Conditional build:
 # _without_alsa - without ALSA
 # _without_svga - without SVGAlib & 3dfx support
@@ -21,7 +25,7 @@ Version:	0.5.2
 Release:	2.%{_snapshot}.2
 License:	GPL
 Group:		Applications/Games
-#Source0:	http://download.sourceforge.net/quake/%{name}-%{version}.tar.bz2
+#Source0:	http://dl.sourceforge.net/quake/%{name}-%{version}.tar.bz2
 # From http://www.quakeforge.org/files/quakeforge-current.tar.bz2
 Source0:	%{name}-%{_snapshot}.tar.bz2
 Source1:	%{name}.png
@@ -391,7 +395,7 @@ for f in $qfver; do
 done
 
 %clean
--rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %post servers
 /sbin/chkconfig --add qw-serverd
@@ -424,6 +428,7 @@ fi
 %files common
 %defattr(644,root,root,755)
 %doc NEWS TODO ChangeLog doc/[!Mm]*
+%dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/%{name}.conf
 %attr(755,root,root) %{_libdir}/libQFcd.so.*
 %attr(755,root,root) %{_libdir}/libQFconsole.so.*
@@ -439,6 +444,7 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/console_client.so
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.so
 %attr(755,root,root) %{_libdir}/%{name}/snd_render_default.so
+%dir %{_datadir}/games/%{name}
 %{_datadir}/games/%{name}/QF
 %{_datadir}/games/%{name}/qw
 %{_pixmapsdir}/%{name}.png
