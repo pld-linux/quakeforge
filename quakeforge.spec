@@ -31,7 +31,10 @@ BuildRequires:	automake
 BuildRequires:	svgalib-devel
 BuildRequires:	texinfo
 BuildRequires:	zlib-devel
+Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define 	_noautoreqdep	libGL.so.1 libGLU.so.1
 
 %description
 3D game engine server based on id Software's Quake engine.
