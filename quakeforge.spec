@@ -48,7 +48,7 @@ Group:		Applications/Games
 %description  svgalib
 Quakeforge client for svgalib.
 
-%description -l pl svgalib
+%description svgalib -l pl
 Klient quakeforge pod svgalib.
 
 %package sdl
@@ -59,7 +59,7 @@ Group:		Applications/Games
 %description  sdl
 Quakeforge client for SDL.
 
-%description -l pl sdl
+%description sdl -l pl
 Klient quakeforge pod SDL.
 
 %package x11
@@ -70,7 +70,7 @@ Group:		Applications/Games
 %description  x11
 Quakeforge client for x11.
 
-%description -l pl x11
+%description x11 -l pl
 Klient quakeforge pod x11.
 
 %prep
@@ -96,7 +96,7 @@ automake -a -c
 	--with-server \
 	--with-newstyle \
 	%{?_without_alsa:--disable-alsa}
-	
+
 %{__make}
 
 %install
