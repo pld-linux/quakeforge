@@ -14,7 +14,7 @@
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
-Version:	0.5.1.20020815
+Version:	0.5.1.20020816
 Release:	1
 License:	GPL
 Group:		Applications/Games
