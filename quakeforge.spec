@@ -3,9 +3,6 @@
 %bcond_without	alsa		# without ALSA
 %bcond_without	svga		# without SVGAlib & 3dfx support
 #
-%ifnarch %{ix86} alpha
-%undefine	with_svga
-%endif
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
