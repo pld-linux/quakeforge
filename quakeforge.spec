@@ -10,12 +10,10 @@ Version:	0.5.5
 Release:	0.1
 License:	GPL
 Group:		Applications/Games
-Source0:	http://mesh.dl.sourceforge.net/sourceforge/quake/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sourceforge.net/quake/%{name}-%{version}.tar.bz2
 # Source0-md5:	b750b491ce24135f1a4a1360029de3a2
 Source1:	%{name}.conf
-#Source2:	%{name}-servers.tgz
-# Source2-md5:	e30556f153d979860bc2e3a9ed598b2b
-Source3:	%{name}.png
+Source2:	%{name}.png
 #Patch0:		%{name}-alsa.patch
 Patch1:		%{name}-svga-noasm.patch
 #Patch2:		%{name}-libdir.patch
@@ -383,11 +381,7 @@ cd $RPM_BUILD_ROOT%{_datadir}/%{name}/qw
 ln -sf %{_sysconfdir}/%{name}/qw-server.cfg server.cfg
 cd -
 
-#cd $RPM_BUILD_ROOT/etc/rc.d/init.d
-#tar zxfv %{SOURCE2}
-#cd -
-
-install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 qfver="glx sdl sdl32 sgl x11"
 
