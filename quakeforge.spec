@@ -59,6 +59,7 @@ id Software's very popular DOOM series. Its primary development goal
 is to remain compatible with the original games released by id
 Software while adding portability and optional extensions to enhance
 gameplay.
+
 This package contains common files for all game versions.
 
 %description common -l pl
@@ -67,6 +68,7 @@ bardzo popularnej serii DOOM firmy id Software. Podstawowym celem
 projektu jest zachowanie zgodno¶ci z oryginalnymi odpowiednikami
 tych¿e gier przy jednoczesnym dodaniu opcjonalnych rozszerzeñ
 s³u¿±cych podniesieniu jako¶ci zabawy.
+
 Ten pakiet zawiera wspólne pliki dla wszystkich wersji gry.
 
 %package devel
