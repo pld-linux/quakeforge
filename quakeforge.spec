@@ -84,7 +84,7 @@ Klient quakeforge pod x11.
 autoheader
 aclocal
 autoconf
-automake -a -c
+automake -a -c -f
 %configure \
 	--with-x \
 	--with-libz \
