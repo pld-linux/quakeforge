@@ -1,8 +1,4 @@
 #
-# TODO: /usr/lib/quakeforge vs /usr/lib/games/quakeforge inconsequence
-#       (both should be "games" paths or not;
-#	 BTW, /usr/{lib,share}/games is for binaries from /usr/games)
-#
 # Conditional build:
 # _without_alsa - without ALSA
 # _without_svga - without SVGAlib & 3dfx support
@@ -22,14 +18,15 @@ Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
 Version:	0.5.2
-Release:	2.%{_snapshot}.2
+Release:	2.%{_snapshot}.3
 License:	GPL
 Group:		Applications/Games
 #Source0:	http://dl.sourceforge.net/quake/%{name}-%{version}.tar.bz2
 # From http://www.quakeforge.org/files/quakeforge-current.tar.bz2
 Source0:	%{name}-%{_snapshot}.tar.bz2
-Source1:	%{name}.png
+Source1:	%{name}.conf
 Source2:	%{name}-servers.tgz
+Source3:	%{name}.png
 URL:		http://www.%{name}.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel
@@ -340,8 +337,8 @@ klientów gry.
 %setup -q -n %{name}
 
 %build
-aclocal
-autoheader
+%{__aclocal}
+%{__autoheader}
 %{__libtoolize} --automake
 %{__automake}
 %{__autoconf}
@@ -352,6 +349,7 @@ autoheader
 	--enable-vidmode \
 	--enable-dga \
 	--with-plugin-path=%{_libdir}/%{name} \
+	--with-sharepath=%{_datadir}/%{name} \
 	--with-global-cfg="%{_sysconfdir}/%{name}/%{name}.conf" \
 	--with-user-cfg="~/.%{name}/%{name}.conf" \
 	%{?_without_svga:--disable-3dfx} \
@@ -365,22 +363,25 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,%{name}},%{_datadir}/games/%{name}/qw} \
+install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,%{name}},%{_datadir}/%{name}/qw} \
     $RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Games}
 
-install  %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
-cp RPM/%{name}.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
 
-touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/qw-server.cfg
 echo "map e1m3" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/nq-server.cfg
 
-cd $RPM_BUILD_ROOT%{_datadir}/games/%{name}/qw
+touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/qw-server.cfg
+
+cd $RPM_BUILD_ROOT%{_datadir}/%{name}/qw
 ln -sf %{_sysconfdir}/%{name}/qw-server.cfg server.cfg
 cd -
+
 
 cd $RPM_BUILD_ROOT/etc/rc.d/init.d
 tar zxfv %{SOURCE2}
 cd -
+
+install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 qfver="%{?!_without_3dfx:3dfx }glx sdl sdl32 sgl x11"
 
@@ -393,6 +394,8 @@ for f in $qfver; do
 	echo "[Desktop Entry]\nName=Quake ($f)\nExec=nq-$f \
 	\nIcon=%{name}.png\nTerminal=0\nType=Application" > $desktopfile
 done
+
+rm -rf `find . -name CVS`
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -444,9 +447,9 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/console_client.so
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.so
 %attr(755,root,root) %{_libdir}/%{name}/snd_render_default.so
-%dir %{_datadir}/games/%{name}
-%{_datadir}/games/%{name}/QF
-%{_datadir}/games/%{name}/qw
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/qw
+%{_datadir}/%{name}/QF
 %{_pixmapsdir}/%{name}.png
 
 %files devel
@@ -529,7 +532,7 @@ fi
 %attr(755,root,root) %{_bindir}/qw-server
 %attr(755,root,root) %{_bindir}/nq-server
 %attr(755,root,root) %{_libdir}/%{name}/console_server.so
-%{_datadir}/games/%{name}/qw/server.cfg
+%{_datadir}/%{name}/qw/server.cfg
 %attr(754,root,root) /etc/rc.d/init.d/*-[!m]*
 
 %files utils
