@@ -365,7 +365,8 @@ klientów gry.
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,%{name}},%{_datadir}/%{name}/qw} \
 	$RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Games}
@@ -607,7 +608,7 @@ fi
 
 %files cd-xmms
 %defattr(644,root,root,755)
-%attr(755,root,root)%{_libdir}/%{name}/cd_xmms.so
+%attr(755,root,root) %{_libdir}/%{name}/cd_xmms.so
 
 %files libs-gl
 %defattr(644,root,root,755)
