@@ -481,7 +481,7 @@ fi
 %{_libdir}/%{name}/cd_xmms.la
 %{_libdir}/%{name}/console_client.la
 %{_libdir}/%{name}/console_server.la
-%{!?_without_alsa:%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa*.la}
+%{!?_without_alsa:%{_libdir}/%{name}/snd_output_alsa*.la}
 %{_libdir}/%{name}/snd_output_disk.la
 %{_libdir}/%{name}/snd_output_null.la
 %{_libdir}/%{name}/snd_output_oss.la
