@@ -101,6 +101,8 @@ Silnik gry 3D QuakeForge - biblioteki statyczne
 Summary:	QuakeForge Servers
 Summary(pl):	Serwery QuakeForge
 Group:		Applications/Games
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-common = %{version}
 
 %description servers
