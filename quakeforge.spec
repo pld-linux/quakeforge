@@ -450,43 +450,43 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qfcc
 %attr(755,root,root) %{_libdir}/libQFcd.so
-%attr(755,root,root) %{_libdir}/libQFcd.la
+%{_libdir}/libQFcd.la
 %attr(755,root,root) %{_libdir}/libQFconsole.so
-%attr(755,root,root) %{_libdir}/libQFconsole.la
+%{_libdir}/libQFconsole.la
 %attr(755,root,root) %{_libdir}/libQFcsqc.so
-%attr(755,root,root) %{_libdir}/libQFcsqc.la
+%{_libdir}/libQFcsqc.la
 %attr(755,root,root) %{_libdir}/libQFgamecode.so
-%attr(755,root,root) %{_libdir}/libQFgamecode.la
+%{_libdir}/libQFgamecode.la
 %attr(755,root,root) %{_libdir}/libQFgamecode_builtins.so
-%attr(755,root,root) %{_libdir}/libQFgamecode_builtins.la
+%{_libdir}/libQFgamecode_builtins.la
 %attr(755,root,root) %{_libdir}/libQFjs.so
-%attr(755,root,root) %{_libdir}/libQFjs.la
+%{_libdir}/libQFjs.la
 %attr(755,root,root) %{_libdir}/libQFmodels.so
-%attr(755,root,root) %{_libdir}/libQFmodels.la
+%{_libdir}/libQFmodels.la
 %attr(755,root,root) %{_libdir}/libQFmodels_gl.so
-%attr(755,root,root) %{_libdir}/libQFmodels_gl.la
+%{_libdir}/libQFmodels_gl.la
 %attr(755,root,root) %{_libdir}/libQFrenderer_gl.so
-%attr(755,root,root) %{_libdir}/libQFrenderer_gl.la
+%{_libdir}/libQFrenderer_gl.la
 %attr(755,root,root) %{_libdir}/libQFmodels_sw.so
-%attr(755,root,root) %{_libdir}/libQFmodels_sw.la
+%{_libdir}/libQFmodels_sw.la
 %attr(755,root,root) %{_libdir}/libQFrenderer_sw32.so
-%attr(755,root,root) %{_libdir}/libQFrenderer_sw32.la
+%{_libdir}/libQFrenderer_sw32.la
 %attr(755,root,root) %{_libdir}/libQFsound.so
-%attr(755,root,root) %{_libdir}/libQFsound.la
+%{_libdir}/libQFsound.la
 %attr(755,root,root) %{_libdir}/libQFutil.so
-%attr(755,root,root) %{_libdir}/libQFutil.la
-%attr(755,root,root) %{_libdir}/%{name}/cd_linux.la
-%attr(755,root,root) %{_libdir}/%{name}/cd_null.la
-%attr(755,root,root) %{_libdir}/%{name}/cd_sdl.la
-%attr(755,root,root) %{_libdir}/%{name}/cd_xmms.la
-%attr(755,root,root) %{_libdir}/%{name}/console_client.la
-%attr(755,root,root) %{_libdir}/%{name}/console_server.la
+%{_libdir}/libQFutil.la
+%{_libdir}/%{name}/cd_linux.la
+%{_libdir}/%{name}/cd_null.la
+%{_libdir}/%{name}/cd_sdl.la
+%{_libdir}/%{name}/cd_xmms.la
+%{_libdir}/%{name}/console_client.la
+%{_libdir}/%{name}/console_server.la
 %{!?_without_alsa:%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa*.la}
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.la
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_null.la
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_oss.la
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_sdl.la
-%attr(755,root,root) %{_libdir}/%{name}/snd_render_default.la
+%{_libdir}/%{name}/snd_output_disk.la
+%{_libdir}/%{name}/snd_output_null.la
+%{_libdir}/%{name}/snd_output_oss.la
+%{_libdir}/%{name}/snd_output_sdl.la
+%{_libdir}/%{name}/snd_render_default.la
 %{_includedir}/QF
 %{_mandir}/man1/qfcc.1*
 
