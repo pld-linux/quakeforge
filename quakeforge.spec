@@ -1,6 +1,7 @@
 #
 # Conditional build:
 # _without_alsa - without ALSA
+# _without_svga - without SVGAlib support
 #
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
@@ -19,11 +20,9 @@ BuildRequires:	XFree86-devel
 BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-%ifnarch sparc
 %{!?_without_alsa:BuildRequires: alsa-lib-devel}
-%endif
 BuildRequires:	nas-devel
-BuildRequires:	svgalib-devel
+%{!?_without_svga:BuildRequires: svgalib-devel}
 BuildRequires:	texinfo
 BuildRequires:	zlib-devel
 Requires:	OpenGL
@@ -31,6 +30,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
 %define 	_xbindir	/usr/X11R6/bin
+
+%ifarch sparc
+%define         _without_alsa   1
+%endif
+
+%ifnarch %{ix86}
+%define         _without_svga   1
+%endif
+
 
 %description
 QuakeForge is a source port of Quake and QuakeWorld, the successors to
@@ -274,7 +282,8 @@ libtoolize --automake
 		--enable-vidmode \
 		--enable-dga \
 		--with-user-cfg="~/.%{name}/%{name}.conf" \
-		%{?_without_alsa:--disable-alsa}
+		%{?_without_alsa:--disable-alsa} \
+		%{?_without_svga:--without-svga}
 
 %{__make}
 
@@ -509,9 +518,9 @@ fi
 %attr(755,root,root)%{_libdir}/%{name}/libsnd_output_sdl.a
 %attr(755,root,root)%{_libdir}/%{name}/libsnd_render_default.a
 
-%files svga
-%defattr(644,root,root,755)
-%attr(4755,root,root)%{_bindir}/*svga
+%{?!_without_svga:%files svga}
+%{?!_without_svga:%defattr(644,root,root,755)}
+%{?!_without_svga:%attr(4755,root,root)%{_bindir}/*svga}
 
 %files utils
 %defattr(644,root,root,755)
