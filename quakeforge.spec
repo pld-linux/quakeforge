@@ -29,6 +29,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake >= 1.6
 BuildRequires:	bison
 BuildRequires:	libtool
+BuildRequires:	rpmbuild(macros) >= 1.176
 BuildRequires:	libvorbis-devel
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	xmms-devel
@@ -436,13 +437,17 @@ rm -rf $RPM_BUILD_ROOT
 if [ -f /var/lock/subsys/qw-serverd ]; then
 	/etc/rc.d/init.d/qw-serverd restart 1>&2
 else
-	echo "Run \"/etc/rc.d/init.d/qw-serverd start\" to start QuakeWorld Server."
+	%banner %{name}-servers -e << EOF
+Run \"/etc/rc.d/init.d/qw-serverd start\" to start QuakeWorld Server.
+EOF
 fi
 /sbin/chkconfig --add nq-serverd
 if [ -f /var/lock/subsys/nq-serverd ]; then
 	/etc/rc.d/init.d/nq-serverd restart 1>&2
 else
-	echo "Run \"/etc/rc.d/init.d/nq-serverd start\" to start NQuake Server."
+	%banner %{name}-servers -e << EOF
+Run \"/etc/rc.d/init.d/nq-serverd start\" to start NQuake Server.
+EOF
 fi
 
 %preun servers
