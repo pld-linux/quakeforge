@@ -346,7 +346,7 @@ install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,%{name}},%{_datadir}/games/%{name}/
 %ifnarch ppc
 mv $RPM_BUILD_ROOT{%{_bindir}/{%{?!_without_3dfx:*3dfx,}*glx,*sdl*,*sgl,*x11},%{_xbindir}}
 %else
-mv $RPM_BUILD_ROOT%{{_bindir}/{*glx,*sdl*,*sgl,*x11},%{_xbindir}}
+mv $RPM_BUILD_ROOT{%{_bindir}/{*glx,*sdl*,*sgl,*x11},%{_xbindir}}
 %endif
 
 install  %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
@@ -359,7 +359,7 @@ cd $RPM_BUILD_ROOT%{_datadir}/games/%{name}/qw
 ln -sf %{_sysconfdir}/%{name}/qw-server.cfg server.cfg 
 cd -
 
-cd $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
+cd $RPM_BUILD_ROOT/etc/rc.d/init.d
 tar zxfv %{SOURCE2}
 cd -
 
@@ -527,7 +527,7 @@ fi
 %attr(755,root,root) %{_bindir}/qw-master
 %attr(755,root,root) %{_libdir}/%{name}/console_server.so*
 %{_datadir}/games/%{name}/qw/server.cfg
-%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/*
+%attr(754,root,root) /etc/rc.d/init.d/*
 
 %files utils
 %defattr(644,root,root,755)
