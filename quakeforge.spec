@@ -29,7 +29,7 @@ Source1:	%{name}.conf
 Source2:	%{name}-servers.tgz
 # Source2-md5: e30556f153d979860bc2e3a9ed598b2b
 Source3:	%{name}.png
-URL:		http://www.%{name}.net/
+URL:		http://www.quakeforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel
 BuildRequires:	XFree86-devel
