@@ -8,20 +8,31 @@ Group:		Applications/Games
 Group(de):	Applikationen/Spiele
 Group(pl):	Aplikacje/Gry
 Source0:	http://download.sourceforge.net/quake/%{name}-%{version}.tar.gz
+Source1:	%{name}.desktop
+Source2:	%{name}.png
+Patch0:		%{name}-info.patch
+Patch1:		%{name}-ac_fix.patch
+Patch2:		%{name}-acconfig.h.patch
+Icon:		quakeforge.xpm
 URL:		http://www.quakeforge.net/
-BuildRequires:	zlib-devel
+BuildRequires:	SDL-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	OpenGL-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
+%ifnarch sparc
 BuildRequires:	alsa-lib-devel
-BuildRequires:	SDL-devel
+%endif
 BuildRequires:	svgalib-devel
+BuildRequires:	texinfo
+BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-3D game engine based on id Software's Quake engine
+3D game engine server based on id Software's Quake engine.
 
 %description -l pl
-Silnik gry 3D bazuj±cy na silniku Quake id Software
+Serwer gry 3D bazuj±cy na silniku Quake id Software.
 
 %package svgalib
 Summary:	quakeforge client for svgalib
@@ -31,10 +42,10 @@ Group(de):	Applikationen/Spiele
 Group(pl):	Aplikacje/Gry
 
 %description  svgalib
-quakeforge client for svgalib
+Quakeforge client for svgalib.
 
 %description -l pl svgalib
-klient quakeforge pod svgalib
+Klient quakeforge pod svgalib.
 
 %package sdl
 Summary:	quakeforge client for SDL
@@ -44,10 +55,10 @@ Group(de):	Applikationen/Spiele
 Group(pl):	Aplikacje/Gry
 
 %description  sdl
-quakeforge client for SDL
+Quakeforge client for SDL.
 
 %description -l pl sdl
-klient quakeforge pod SDL
+Klient quakeforge pod SDL.
 
 %package x11
 Summary:	quakeforge client for x11
@@ -57,21 +68,23 @@ Group(de):	Applikationen/Spiele
 Group(pl):	Aplikacje/Gry
 
 %description  x11
-quakeforge client for x11
+Quakeforge client for x11.
 
 %description -l pl x11
-klient quakeforge pod x11
+Klient quakeforge pod x11.
 
 %prep
 %setup  -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
+autoheader
 aclocal
-automake -a -c
 autoconf
+automake -a -c
 %configure \
-	--bindir=%{_prefix}/games \
-	--sbindir=%{_prefix}/games \
 	--with-x \
 	--with-libz \
 	--enable-vidmode \
@@ -80,40 +93,49 @@ autoconf
 	--with-sharepath=%{_datadir}/games/%{name} \
 	--with-global-cfg=%{_sysconfdir}/%{name}.conf \
 	--with-server \
-	--with-newstyle \
-	--disable-profile \
-	--disable-debug
+	--with-newstyle
 	
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_datadir}/games/%{name}
+install -d $RPM_BUILD_ROOT{%{_datadir}/games/%{name},%{_pixmapsdir},%{_applnkdir}/Games}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Games
+install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 gzip -9nf AUTHORS NEWS README doc/readme.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%postun
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
 %files
 %defattr(644,root,root,755)
 %doc *.gz doc/*.gz
-%attr(755,root,root) %{_prefix}/games/qf-server
-%{_infodir}/*.gz
-%{_mandir}/man*/*.gz
+%attr(755,root,root) %{_bindir}/qf-server
 %dir %{_datadir}/games/%{name}
+%{_infodir}/*info*
+%{_mandir}/man*/*
 
 %files svgalib
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_prefix}/games/qf-client-svga
+%attr(755,root,root) %{_bindir}/qf-client-svga
 
 %files sdl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_prefix}/games/qf-client-sdl
+%attr(755,root,root) %{_bindir}/qf-client-sdl
 
 %files x11
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_prefix}/games/qf-client-x11
+%attr(755,root,root) %{_bindir}/qf-client-x11
+%{_applnkdir}/Games/*
+%{_pixmapsdir}/*
