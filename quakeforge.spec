@@ -1,7 +1,6 @@
 #
 # todo:
 # - fix build requirements for 3dfx (there is no BR)
-# - bcond for 3dfx
 #
 # Conditional build:
 # _without_alsa - without ALSA
@@ -330,6 +329,7 @@ klientów gry.
 	--enable-dga \
 	--with-plugin-path=%{_libdir}/%{name} \
 	--with-user-cfg="~/.%{name}/%{name}.conf" \
+	%{?_without_3dfx:--disable-3dfx} \
 	%{?_without_alsa:--disable-alsa} \
 	%{?_without_svga:--without-svga}
 
@@ -343,7 +343,7 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_datadir}/games/%{name}/qw} \
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 %ifnarch ppc
-mv $RPM_BUILD_ROOT%{_bindir}/{*3dfx,*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
+mv $RPM_BUILD_ROOT%{_bindir}/{%{?!_without_3dfx:*3dfx,}*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
 %else
 mv $RPM_BUILD_ROOT%{_bindir}/{*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
 %endif
@@ -355,7 +355,7 @@ cd $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
 tar zxfv %{SOURCE2}
 cd -
 
-qfver="3dfx glx sdl sdl32 sgl x11"
+qfver="%{?!_without_3dfx:3dfx }glx sdl sdl32 sgl x11"
 
 for f in $qfver; do
 	desktopfile="$RPM_BUILD_ROOT%{_applnkdir}/Games/qw-client-$f.desktop"
@@ -537,11 +537,13 @@ fi
 #%{_mandir}/man1/qfprogs.1*
 #%{_mandir}/man1/qfwavinfo.1*
 
+%if %{?_without_3dfx:0}%{!?_without_3dfx:1}
 %ifnarch ppc
 %files 3dfx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_xbindir}/*3dfx
 %{_applnkdir}/Games/*3dfx.desktop
+%endif
 %endif
 
 %files fbdev
