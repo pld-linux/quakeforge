@@ -144,8 +144,6 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/games/%{name},%{_pixmapsdir},%{_applnkdir
 install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Games
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-gzip -9nf AUTHORS NEWS README doc/readme.txt
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -157,7 +155,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz doc/*.gz
+%doc AUTHORS NEWS README doc/readme.txt
 %attr(755,root,root) %{_bindir}/qf-server
 %dir %{_datadir}/games/%{name}
 %{_infodir}/*info*
