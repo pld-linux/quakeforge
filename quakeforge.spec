@@ -153,7 +153,7 @@ Summary(pl):	Klient QuakeForge glx
 Group:		Applications/Games
 Requires:	%{name}-libs-gl = %{version}
 
-%description  glx
+%description glx
 Quakeforge client for X Window that uses OpenGL through GLX extension.
 
 %description glx -l pl
@@ -166,7 +166,7 @@ Summary(pl):	Klient QuakeForge pod SDL z 8-bitowym kolorem
 Group:		Applications/Games
 Requires:	%{name}-libs-sw = %{version}
 
-%description  sdl
+%description sdl
 Quakeforge client for SDL with 8-bit color.
 
 %description sdl -l pl
@@ -205,7 +205,7 @@ Group:		Applications/Games
 Requires:	%{name}-libs-sw = %{version}
 Obsoletes:	%{name}-svgalib
 
-%description  svga
+%description svga
 Quakeforge client for svgalib.
 
 %description svga -l pl
@@ -368,7 +368,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,%{name}},%{_datadir}/%{name}/qw} \
-    $RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Games}
+	$RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Games}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
 
