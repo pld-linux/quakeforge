@@ -3,6 +3,9 @@
 # _without_alsa - without ALSA
 # _without_svga - without SVGAlib & 3dfx support
 #
+
+%define		_snapshot	20030214
+
 %ifarch sparc sparcv9 sparc64
 %define			_without_alsa	1
 %endif
@@ -15,10 +18,12 @@ Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
 Version:	0.5.2
-Release:	2
+Release:	2.%{_snapshot}.1
 License:	GPL
 Group:		Applications/Games
-Source0:	http://download.sourceforge.net/quake/%{name}-%{version}.tar.bz2
+#Source0:	http://download.sourceforge.net/quake/%{name}-%{version}.tar.bz2
+# From http://www.quakeforge.org/files/quakeforge-current.tar.bz2
+Source0:	%{name}-%{_snapshot}.tar.bz2
 Source1:	%{name}.png
 Source2:	%{name}-servers.tgz
 URL:		http://www.%{name}.net/
@@ -38,7 +43,6 @@ Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
-%define 	_xbindir	/usr/X11R6/bin
 
 %description
 QuakeForge is a source port of Quake and QuakeWorld, the successors to
@@ -317,9 +321,14 @@ Wtyczka SDL dla QuakeForge udostêpnia cyfrowe wyj¶cie d¼wiêku dla
 klientów gry.
 
 %prep
-%setup -q
+%setup -q -n %{name}
 
 %build
+aclocal
+autoheader
+%{__libtoolize} --automake
+%{__automake}
+%{__autoconf}
 # --without-arch not to override -march passed by %%configure
 %configure \
 	--with-x \
@@ -337,16 +346,11 @@ klientów gry.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,%{name}},%{_datadir}/games/%{name}/qw} \
-	$RPM_BUILD_ROOT{%{_xbindir},%{_pixmapsdir},%{_applnkdir}/Games}
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-%ifnarch ppc
-mv $RPM_BUILD_ROOT{%{_bindir}/{%{?!_without_3dfx:*3dfx,}*glx,*sdl*,*sgl,*x11},%{_xbindir}}
-%else
-mv $RPM_BUILD_ROOT{%{_bindir}/{*glx,*sdl*,*sgl,*x11},%{_xbindir}}
-%endif
+install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,%{name}},%{_datadir}/games/%{name}/qw} \
+    $RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Games}
 
 install  %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 cp RPM/%{name}.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
@@ -374,10 +378,8 @@ for f in $qfver; do
 	\nIcon=%{name}.png\nTerminal=0\nType=Application" > $desktopfile
 done
 
-cp doc/man/%{name}* $RPM_BUILD_ROOT%{_mandir}/man1
-
 %clean
-%{!?_without_clean:rm -rf $RPM_BUILD_ROOT}
+-rf $RPM_BUILD_ROOT
 
 %post servers
 /sbin/chkconfig --add qw-serverd
@@ -391,12 +393,6 @@ if [ -f /var/lock/subsys/nq-serverd ]; then
 	/etc/rc.d/init.d/nq-serverd restart 1>&2
 else
 	echo "Run \"/etc/rc.d/init.d/nq-serverd start\" to start NQuake Server."
-fi
-/sbin/chkconfig --add qw-masterd
-if [ -f /var/lock/subsys/qw-masterd ]; then
-	/etc/rc.d/init.d/qw-masterd restart 1>&2
-else
-	echo "Run \"/etc/rc.d/init.d/qw-masterd start\" to start QuakeWorld Master."
 fi
 
 %preun servers
@@ -412,12 +408,6 @@ if [ "$1" = "0" ]; then
 	fi
 	/sbin/chkconfig --del nq-serverd
 fi
-if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/qw-masterd ]; then
-		/etc/rc.d/init.d/qw-masterd stop 1>&2
-	fi
-	/sbin/chkconfig --del qw-masterd
-fi
 
 %files
 %defattr(644,root,root,755)
@@ -428,23 +418,18 @@ fi
 %attr(755,root,root) %{_libdir}/libQFcsqc.so.*
 %attr(755,root,root) %{_libdir}/libQFgamecode.so.*
 %attr(755,root,root) %{_libdir}/libQFgamecode_builtins.so.*
+%attr(755,root,root) %{_libdir}/libQFgib.so.*
 %attr(755,root,root) %{_libdir}/libQFjs.so.*
 %attr(755,root,root) %{_libdir}/libQFmodels.so.*
 %attr(755,root,root) %{_libdir}/libQFsound.so.*
 %attr(755,root,root) %{_libdir}/libQFutil.so.*
 %dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/cd_null.so*
-%attr(755,root,root) %{_libdir}/%{name}/console_client.so*
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.so*
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_null.so*
-%attr(755,root,root) %{_libdir}/%{name}/snd_render_default.so*
-%dir %{_datadir}/games/%{name}
-%dir %{_datadir}/games/%{name}/id1
-%{_datadir}/games/%{name}/id1/game.dat*
-%{_datadir}/games/%{name}/id1/menu.dat*
-%dir %{_datadir}/games/%{name}/qw
+%attr(755,root,root) %{_libdir}/%{name}/console_client.so
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.so
+%attr(755,root,root) %{_libdir}/%{name}/snd_render_default.so
+%{_datadir}/games/%{name}/QF
+%{_datadir}/games/%{name}/qw
 %{_pixmapsdir}/%{name}.png
-%{_mandir}/man1/%{name}.1*
 
 %files devel
 %defattr(644,root,root,755)
@@ -459,16 +444,18 @@ fi
 %{_libdir}/libQFgamecode.la
 %attr(755,root,root) %{_libdir}/libQFgamecode_builtins.so
 %{_libdir}/libQFgamecode_builtins.la
+%attr(755,root,root) %{_libdir}/libQFgib.so
+%{_libdir}/libQFgib.la
 %attr(755,root,root) %{_libdir}/libQFjs.so
 %{_libdir}/libQFjs.la
 %attr(755,root,root) %{_libdir}/libQFmodels.so
 %{_libdir}/libQFmodels.la
 %attr(755,root,root) %{_libdir}/libQFmodels_gl.so
 %{_libdir}/libQFmodels_gl.la
-%attr(755,root,root) %{_libdir}/libQFrenderer_gl.so
-%{_libdir}/libQFrenderer_gl.la
 %attr(755,root,root) %{_libdir}/libQFmodels_sw.so
 %{_libdir}/libQFmodels_sw.la
+%attr(755,root,root) %{_libdir}/libQFrenderer_gl.so
+%{_libdir}/libQFrenderer_gl.la
 %attr(755,root,root) %{_libdir}/libQFrenderer_sw32.so
 %{_libdir}/libQFrenderer_sw32.la
 %attr(755,root,root) %{_libdir}/libQFsound.so
@@ -476,14 +463,12 @@ fi
 %attr(755,root,root) %{_libdir}/libQFutil.so
 %{_libdir}/libQFutil.la
 %{_libdir}/%{name}/cd_linux.la
-%{_libdir}/%{name}/cd_null.la
 %{_libdir}/%{name}/cd_sdl.la
 %{_libdir}/%{name}/cd_xmms.la
 %{_libdir}/%{name}/console_client.la
 %{_libdir}/%{name}/console_server.la
 %{!?_without_alsa:%{_libdir}/%{name}/snd_output_alsa*.la}
 %{_libdir}/%{name}/snd_output_disk.la
-%{_libdir}/%{name}/snd_output_null.la
 %{_libdir}/%{name}/snd_output_oss.la
 %{_libdir}/%{name}/snd_output_sdl.la
 %{_libdir}/%{name}/snd_render_default.la
@@ -497,6 +482,7 @@ fi
 %{_libdir}/libQFcsqc.a
 %{_libdir}/libQFgamecode.a
 %{_libdir}/libQFgamecode_builtins.a
+%{_libdir}/libQFgib.a
 %{_libdir}/libQFjs.a
 %{_libdir}/libQFmodels.a
 %{_libdir}/libQFmodels_gl.a
@@ -506,31 +492,32 @@ fi
 %{_libdir}/libQFsound.a
 %{_libdir}/libQFutil.a
 %{_libdir}/%{name}/cd_linux.a
-%{_libdir}/%{name}/cd_null.a
 %{_libdir}/%{name}/cd_sdl.a
 %{_libdir}/%{name}/cd_xmms.a
 %{_libdir}/%{name}/console_client.a
 %{_libdir}/%{name}/console_server.a
 %{!?_without_alsa:%{_libdir}/%{name}/snd_output_alsa*.a}
 %{_libdir}/%{name}/snd_output_disk.a
-%{_libdir}/%{name}/snd_output_null.a
 %{_libdir}/%{name}/snd_output_oss.a
 %{_libdir}/%{name}/snd_output_sdl.a
 %{_libdir}/%{name}/snd_render_default.a
+%{_libdir}/ruamoko
 
 %files servers
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*-server.cfg
+%attr(755,root,root) %{_bindir}/hw-master
+%attr(755,root,root) %{_bindir}/qw-master
 %attr(755,root,root) %{_bindir}/qw-server
 %attr(755,root,root) %{_bindir}/nq-server
-%attr(755,root,root) %{_bindir}/qw-master
-%attr(755,root,root) %{_libdir}/%{name}/console_server.so*
+%attr(755,root,root) %{_libdir}/%{name}/console_server.so
 %{_datadir}/games/%{name}/qw/server.cfg
-%attr(754,root,root) /etc/rc.d/init.d/*
+%attr(754,root,root) /etc/rc.d/init.d/*-[!m]*
 
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pak
+%attr(755,root,root) %{_bindir}/bsp2img
 %attr(755,root,root) %{_bindir}/qfbsp
 %attr(755,root,root) %{_bindir}/qfdefs
 %attr(755,root,root) %{_bindir}/qflight
@@ -542,13 +529,11 @@ fi
 %{_mandir}/man1/pak.1*
 %{_mandir}/man1/qflight.1*
 %{_mandir}/man1/qfvis.1*
-#%{_mandir}/man1/qfprogs.1*
-#%{_mandir}/man1/qfwavinfo.1*
 
 %if %{?_without_svga:0}%{!?_without_svga:1}
 %files 3dfx
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_xbindir}/*3dfx
+%attr(755,root,root) %{_bindir}/*3dfx
 %{_applnkdir}/Games/*3dfx.desktop
 %endif
 
@@ -558,22 +543,22 @@ fi
 
 %files glx
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_xbindir}/*glx
+%attr(755,root,root) %{_bindir}/*glx
 %{_applnkdir}/Games/*glx.desktop
 
 %files sdl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_xbindir}/*sdl
+%attr(755,root,root) %{_bindir}/*sdl
 %{_applnkdir}/Games/*sdl.desktop
 
 %files sdl32
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_xbindir}/*sdl32
+%attr(755,root,root) %{_bindir}/*sdl32
 %{_applnkdir}/Games/*sdl32.desktop
 
 %files sgl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_xbindir}/*sgl
+%attr(755,root,root) %{_bindir}/*sgl
 %{_applnkdir}/Games/*sgl.desktop
 
 %if %{?_without_svga:0}%{!?_without_svga:1}
@@ -584,20 +569,20 @@ fi
 
 %files x11
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_xbindir}/*x11
+%attr(755,root,root) %{_bindir}/*x11
 %{_applnkdir}/Games/*x11.desktop
 
 %files cd-linux
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/cd_linux.so*
+%attr(755,root,root) %{_libdir}/%{name}/cd_linux.so
 
 %files cd-sdl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/cd_sdl.so*
+%attr(755,root,root) %{_libdir}/%{name}/cd_sdl.so
 
 %files cd-xmms
 %defattr(644,root,root,755)
-%attr(755,root,root)%{_libdir}/%{name}/cd_xmms.so*
+%attr(755,root,root)%{_libdir}/%{name}/cd_xmms.so
 
 %files libs-gl
 %defattr(644,root,root,755)
@@ -612,13 +597,13 @@ fi
 %if %{?_without_alsa:0}%{!?_without_alsa:1}
 %files snd-alsa
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa*.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa*.so
 %endif
 
 %files snd-oss
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_oss.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_oss.so
 
 %files snd-sdl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/snd_output_sdl.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_sdl.so
