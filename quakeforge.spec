@@ -27,17 +27,17 @@ Source0:	%{name}-%{_snapshot}.tar.bz2
 # Source0-md5:	02de8d66e14c2422e8b5bef216963ef0
 Source1:	%{name}.conf
 Source2:	%{name}-servers.tgz
-# Source2-md5: e30556f153d979860bc2e3a9ed598b2b
+# Source2-md5:	e30556f153d979860bc2e3a9ed598b2b
 Source3:	%{name}.png
 URL:		http://www.quakeforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel
 BuildRequires:	XFree86-devel
-%{!?_without_alsa:BuildRequires: alsa-lib-devel}
+%{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1.6
 BuildRequires:	bison
-%{!?_without_svga:BuildRequires: svgalib-devel}
+%{!?_without_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	texinfo
 BuildRequires:	xmms-devel
 BuildRequires:	zlib-devel
