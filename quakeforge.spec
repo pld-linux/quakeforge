@@ -49,7 +49,6 @@ Summary:	QuakeForge - Common files
 Summary(pl):	QuakeForge - pliki wspólne
 Group:		Applications/Games
 Obsoletes:	quakeforge < 0.5.2-2.20030214.2
-Requires(post,postun):	/sbin/ldconfig
 
 %description common
 QuakeForge is a source port of Quake and QuakeWorld, the successors to
@@ -262,7 +261,6 @@ Summary(pl):	QuakeForge - biblioteki renderujace OpenGL
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 Requires:	OpenGL
-Requires(post,postun):	/sbin/ldconfig
 
 %description libs-gl
 QuakeForge - OpenGL renderer libraries.
@@ -275,7 +273,6 @@ Summary:	QuakeForge - Software renderer libraries
 Summary(pl):	QuakeForge - biblioteki do renderowania programowego
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
-Requires(post,postun):	/sbin/ldconfig
 
 %description libs-sw
 QuakeForge - Software renderer libraries.
@@ -426,15 +423,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/*.{la,a}
 rm -rf $RPM_BUILD_ROOT
 
 %post 	common -p /sbin/ldconfig
-
 %postun common -p /sbin/ldconfig
 
 %post 	libs-gl -p /sbin/ldconfig
-
 %postun libs-gl -p /sbin/ldconfig
 
 %post 	libs-sw -p /sbin/ldconfig
-
 %postun libs-sw -p /sbin/ldconfig
 
 %post servers
