@@ -15,7 +15,7 @@ Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
 Version:	0.5.1.20020822
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Games
 # From http://www.quakeforge.net/files/quakeforge-current.tar.bz2
@@ -182,6 +182,7 @@ Summary:	QuakeForge client for svgalib
 Summary(pl):	Klient QuakeForge pod svgalib
 Group:		Applications/Games
 Requires:	%{name}-libs-sw = %{version}
+Obsoletes:	%{name}-svgalib
 
 %description  svga
 Quakeforge client for svgalib.
