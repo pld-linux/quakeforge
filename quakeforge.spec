@@ -28,6 +28,7 @@ BuildRequires:	automake
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	libtool
 %{!?_without_svgalib:BuildRequires:	svgalib-devel}
+BuildRequires:	libggi-devel
 BuildRequires:	texinfo
 BuildRequires:	zlib-devel
 Requires:	OpenGL
@@ -81,6 +82,28 @@ Quakeforge client for x11.
 
 %description x11 -l pl
 Klient quakeforge pod x11.
+
+%package fbdev
+Summary:        quakeforge client for fbdev
+Summary(pl):    klient quakeforge pod fbdev
+Group:          Applications/Games
+
+%description  fbdev
+Quakeforge client for fbdev.
+
+%description fbdev -l pl
+Klient quakeforge pod fbdev.
+
+%package ggi
+Summary:        quakeforge client for ggi
+Summary(pl):    klient quakeforge pod ggi
+Group:          Applications/Games
+
+%description  ggi
+Quakeforge client for ggi.
+
+%description ggi -l pl
+Klient quakeforge pod ggi.
 
 %prep
 %setup  -q
@@ -153,3 +176,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qf-client-x11
 %{_applnkdir}/Games/*
 %{_pixmapsdir}/*
+
+%files fbdev
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/qf-client-fbdev
+
+%files ggi
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/qf-client-ggi
