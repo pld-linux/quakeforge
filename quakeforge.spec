@@ -1,6 +1,7 @@
 #
 # Conditional build:
 # _without_alsa - without ALSA
+# _without_svga - without SVGAlib support
 #
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
@@ -16,6 +17,7 @@ Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac_fix.patch
 Patch2:		%{name}-acconfig.h.patch
 Patch3:		%{name}-ah_fixes.patch
+Patch4:		%{name}-compat.patch
 Icon:		quakeforge.xpm
 URL:		http://www.quakeforge.net/
 BuildRequires:	SDL-devel
@@ -23,16 +25,23 @@ BuildRequires:	XFree86-devel
 BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-%ifnarch sparc
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
-%endif
-BuildRequires:	svgalib-devel
+BuildRequires:	libtool
+%{!?_without_svgalib:BuildRequires:	svgalib-devel}
 BuildRequires:	texinfo
 BuildRequires:	zlib-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
+
+%ifarch sparc
+%define		_without_alsa	1
+%endif
+
+%ifnarch %{ix86}
+%define		_without_svga	1
+%endif
 
 %description
 3D game engine server based on id Software's Quake engine.
@@ -79,8 +88,10 @@ Klient quakeforge pod x11.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
+%{__libtoolize}
 autoheader
 aclocal
 %{__autoconf}
@@ -95,7 +106,8 @@ aclocal
 	--with-global-cfg=%{_sysconfdir}/%{name}.conf \
 	--with-server \
 	--with-newstyle \
-	%{?_without_alsa:--disable-alsa}
+	%{?_without_alsa:--disable-alsa} \
+	%{?_without_svga:--without-svga}
 
 %{__make}
 
@@ -128,9 +140,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_infodir}/*info*
 %{_mandir}/man*/*
 
-%files svgalib
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qf-client-svga
+%{?!_without_svga:%files svgalib}
+%{?!_without_svga:%defattr(644,root,root,755)}
+%{?!_without_svga:%attr(755,root,root) %{_bindir}/qf-client-svga}
 
 %files sdl
 %defattr(644,root,root,755)
