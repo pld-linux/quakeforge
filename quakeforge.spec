@@ -3,7 +3,7 @@
 # _without_alsa - without ALSA
 # _without_svga - without SVGAlib support
 #
-%ifarch sparc
+%ifarch sparc sparcv9 sparc64
 %define			_without_alsa	1
 %endif
 
