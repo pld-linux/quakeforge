@@ -367,11 +367,11 @@ for f in $qfver; do
 	\nIcon=%{name}.png\nTerminal=0\nType=Application" > $desktopfile
 done
 
-mv doc/man/%{name}* $RPM_BUILD_ROOT%{_mandir}/man1
+cp doc/man/%{name}* $RPM_BUILD_ROOT%{_mandir}/man1
 rm -rf doc/{CVS,Makefile*,man,config/{CVS,gib/CVS},data/{CVS,docs/CVS},ideas/CVS}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+%{!?_without_clean:rm -rf $RPM_BUILD_ROOT}
 
 %post servers
 /sbin/chkconfig --add qw-serverd
@@ -523,11 +523,17 @@ fi
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pak
+%attr(755,root,root) %{_bindir}/qfbsp
 %attr(755,root,root) %{_bindir}/qfdefs
+%attr(755,root,root) %{_bindir}/qflight
+%attr(755,root,root) %{_bindir}/qfmodelgen
 %attr(755,root,root) %{_bindir}/qfprogs
+%attr(755,root,root) %{_bindir}/qfvis
 %attr(755,root,root) %{_bindir}/qfwavinfo
 %attr(755,root,root) %{_bindir}/zpak
 %{_mandir}/man1/pak.1*
+%{_mandir}/man1/qflight.1*
+%{_mandir}/man1/qfvis.1*
 #%{_mandir}/man1/qfprogs.1*
 #%{_mandir}/man1/qfwavinfo.1*
 
