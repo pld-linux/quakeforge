@@ -9,8 +9,6 @@ Version:	0.3.0
 Release:	3
 License:	GPL
 Group:		Applications/Games
-Group(de):	Applikationen/Spiele
-Group(pl):	Aplikacje/Gry
 Source0:	http://download.sourceforge.net/quake/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source2:	%{name}.png
@@ -46,8 +44,6 @@ Serwer gry 3D bazuj±cy na silniku Quake id Software.
 Summary:	quakeforge client for svgalib
 Summary(pl):	klient quakeforge pod svgalib
 Group:		Applications/Games
-Group(de):	Applikationen/Spiele
-Group(pl):	Aplikacje/Gry
 
 %description  svgalib
 Quakeforge client for svgalib.
@@ -59,8 +55,6 @@ Klient quakeforge pod svgalib.
 Summary:	quakeforge client for SDL
 Summary(pl):	klient quakeforge pod SDL
 Group:		Applications/Games
-Group(de):	Applikationen/Spiele
-Group(pl):	Aplikacje/Gry
 
 %description  sdl
 Quakeforge client for SDL.
@@ -72,8 +66,6 @@ Klient quakeforge pod SDL.
 Summary:	quakeforge client for x11
 Summary(pl):	klient quakeforge pod x11
 Group:		Applications/Games
-Group(de):	Applikationen/Spiele
-Group(pl):	Aplikacje/Gry
 
 %description  x11
 Quakeforge client for x11.
