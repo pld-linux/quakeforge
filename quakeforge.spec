@@ -14,7 +14,7 @@
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
-Version:	0.5.1.20020816
+Version:	0.5.1.20020822
 Release:	1
 License:	GPL
 Group:		Applications/Games
@@ -101,6 +101,18 @@ QuakeForge - utility programs.
 
 %description utils -l pl
 QuakeForge - programy narzêdziowe.
+
+%package 3dfx
+Summary:	QuakeForge client for 3dfx
+Summary(pl):	Klient QuakeForge pod 3dfx
+Group:		Applications/Games
+Requires:	%{name}-libs-gl = %{version}
+
+%description 3dfx
+Quakeforge client for 3dfx device.
+
+%description 3dfx -l pl
+Klient QuakeForge pod 3dfx.
 
 %package fbdev
 Summary:	QuakeForge client for fbdev
@@ -330,7 +342,7 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_datadir}/games/%{name}/qw} \
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT%{_bindir}/{*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
+mv $RPM_BUILD_ROOT%{_bindir}/{*3dfx,*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
 
 install  %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 cp RPM/%{name}.conf $RPM_BUILD_ROOT%{_sysconfdir}
@@ -339,7 +351,7 @@ cd $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
 tar zxfv %{SOURCE2}
 cd -
 
-qfver="glx sdl sdl32 sgl x11"
+qfver="3dfx glx sdl sdl32 sgl x11"
 
 for f in $qfver; do
 	desktopfile="$RPM_BUILD_ROOT%{_applnkdir}/Games/qw-client-$f.desktop"
@@ -399,7 +411,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc NEWS TODO doc/*
+%doc NEWS TODO ChangeLog doc/*
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
 %attr(755,root,root) %{_libdir}/libQFcd.so.*
 %attr(755,root,root) %{_libdir}/libQFconsole.so.*
@@ -414,9 +426,11 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/cd_null.so*
 %attr(755,root,root) %{_libdir}/%{name}/console_client.so*
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_null.so*
 %attr(755,root,root) %{_libdir}/%{name}/snd_render_default.so*
 %dir %{_datadir}/games/%{name}
 %dir %{_datadir}/games/%{name}/id1
+%{_datadir}/games/%{name}/id1/game.dat*
 %{_datadir}/games/%{name}/id1/menu.dat*
 %dir %{_datadir}/games/%{name}/qw
 %{_pixmapsdir}/%{name}.png
@@ -459,6 +473,7 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/console_server.la
 %{!?_without_alsa:%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa0_5.la}
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.la
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_null.la
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_oss.la
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_sdl.la
 %attr(755,root,root) %{_libdir}/%{name}/snd_render_default.la
@@ -488,6 +503,7 @@ fi
 %{_libdir}/%{name}/console_server.a
 %{!?_without_alsa:%{_libdir}/%{name}/snd_output_alsa0_5.a}
 %{_libdir}/%{name}/snd_output_disk.a
+%{_libdir}/%{name}/snd_output_null.a
 %{_libdir}/%{name}/snd_output_oss.a
 %{_libdir}/%{name}/snd_output_sdl.a
 %{_libdir}/%{name}/snd_render_default.a
@@ -503,8 +519,18 @@ fi
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pak
+%attr(755,root,root) %{_bindir}/qfdefs
 %attr(755,root,root) %{_bindir}/qfprogs
+%attr(755,root,root) %{_bindir}/qfwavinfo
+%attr(755,root,root) %{_bindir}/zpak
 %{_mandir}/man1/pak.1*
+#%{_mandir}/man1/qfprogs.1*
+#%{_mandir}/man1/qfwavinfo.1*
+
+%files 3dfx
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_xbindir}/*3dfx
+%{_applnkdir}/Games/*3dfx.desktop
 
 %files fbdev
 %defattr(644,root,root,755)
