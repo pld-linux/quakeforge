@@ -6,19 +6,19 @@
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
-Version:	0.5.4
-Release:	3
+Version:	0.5.5
+Release:	0.1
 License:	GPL
 Group:		Applications/Games
-Source0:	http://dl.sourceforge.net/quake/%{name}-%{version}.tar.bz2
-# Source0-md5:	63d56b50fddfe81c877e67981d4c013f
+Source0:	http://mesh.dl.sourceforge.net/sourceforge/quake/%{name}-%{version}.tar.bz2
+# Source0-md5:	b750b491ce24135f1a4a1360029de3a2
 Source1:	%{name}.conf
-Source2:	%{name}-servers.tgz
+#Source2:	%{name}-servers.tgz
 # Source2-md5:	e30556f153d979860bc2e3a9ed598b2b
 Source3:	%{name}.png
-Patch0:		%{name}-alsa.patch
+#Patch0:		%{name}-alsa.patch
 Patch1:		%{name}-svga-noasm.patch
-Patch2:		%{name}-libdir.patch
+#Patch2:		%{name}-libdir.patch
 Patch3:		%{name}-noio.patch
 URL:		http://www.quakeforge.net/
 BuildRequires:	OpenGL-devel
@@ -335,9 +335,9 @@ klientów gry.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
-%patch2 -p1
+#%patch2 -p1
 %patch3 -p1
 
 %build
@@ -383,9 +383,9 @@ cd $RPM_BUILD_ROOT%{_datadir}/%{name}/qw
 ln -sf %{_sysconfdir}/%{name}/qw-server.cfg server.cfg
 cd -
 
-cd $RPM_BUILD_ROOT/etc/rc.d/init.d
-tar zxfv %{SOURCE2}
-cd -
+#cd $RPM_BUILD_ROOT/etc/rc.d/init.d
+#tar zxfv %{SOURCE2}
+#cd -
 
 install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
@@ -471,7 +471,6 @@ fi
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/%{name}.conf
 %attr(755,root,root) %{_libdir}/libQFcd.so.*.*.*
 %attr(755,root,root) %{_libdir}/libQFconsole.so.*.*.*
-%attr(755,root,root) %{_libdir}/libQFcsqc.so.*.*.*
 %attr(755,root,root) %{_libdir}/libQFgamecode.so.*.*.*
 %attr(755,root,root) %{_libdir}/libQFgamecode_builtins.so.*.*.*
 %attr(755,root,root) %{_libdir}/libQFgib.so.*.*.*
@@ -479,6 +478,8 @@ fi
 %attr(755,root,root) %{_libdir}/libQFmodels.so.*.*.*
 %attr(755,root,root) %{_libdir}/libQFsound.so.*.*.*
 %attr(755,root,root) %{_libdir}/libQFutil.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFruamoko.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQFimage.so.1.*.*
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/console_client.so
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.so
@@ -495,8 +496,6 @@ fi
 %{_libdir}/libQFcd.la
 %attr(755,root,root) %{_libdir}/libQFconsole.so
 %{_libdir}/libQFconsole.la
-%attr(755,root,root) %{_libdir}/libQFcsqc.so
-%{_libdir}/libQFcsqc.la
 %attr(755,root,root) %{_libdir}/libQFgamecode.so
 %{_libdir}/libQFgamecode.la
 %attr(755,root,root) %{_libdir}/libQFgamecode_builtins.so
@@ -519,6 +518,10 @@ fi
 %{_libdir}/libQFsound.la
 %attr(755,root,root) %{_libdir}/libQFutil.so
 %{_libdir}/libQFutil.la
+%attr(755,root,root) %{_libdir}/libQFimage.so
+%{_libdir}/libQFimage.la
+%attr(755,root,root) %{_libdir}/libQFruamoko.so
+%{_libdir}/libQFruamoko.la
 %{_includedir}/QF
 %{_mandir}/man1/qfcc.1*
 
@@ -526,7 +529,6 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libQFcd.a
 %{_libdir}/libQFconsole.a
-%{_libdir}/libQFcsqc.a
 %{_libdir}/libQFgamecode.a
 %{_libdir}/libQFgamecode_builtins.a
 %{_libdir}/libQFgib.a
@@ -538,6 +540,8 @@ fi
 %{_libdir}/libQFrenderer_sw32.a
 %{_libdir}/libQFsound.a
 %{_libdir}/libQFutil.a
+%{_libdir}/libQFruamoko.a
+%{_libdir}/libQFimage.a
 %{_libdir}/ruamoko
 
 %files servers
@@ -549,14 +553,16 @@ fi
 %attr(755,root,root) %{_bindir}/nq-server
 %attr(755,root,root) %{_libdir}/%{name}/console_server.so
 %{_datadir}/%{name}/qw/server.cfg
-%attr(754,root,root) /etc/rc.d/init.d/*-[!m]*
+#%attr(754,root,root) /etc/rc.d/init.d/*-[!m]*
 
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pak
 %attr(755,root,root) %{_bindir}/bsp2img
 %attr(755,root,root) %{_bindir}/qfbsp
-%attr(755,root,root) %{_bindir}/qfdefs
+%attr(755,root,root) %{_bindir}/qtv
+%attr(755,root,root) %{_bindir}/wad
+%attr(755,root,root) %{_bindir}/qfpreqcc
 %attr(755,root,root) %{_bindir}/qflight
 %attr(755,root,root) %{_bindir}/qfmodelgen
 %attr(755,root,root) %{_bindir}/qfprogs
@@ -566,6 +572,7 @@ fi
 %{_mandir}/man1/pak.1*
 %{_mandir}/man1/qflight.1*
 %{_mandir}/man1/qfvis.1*
+%{_mandir}/man1/wad.1*
 
 %if %{with svga}
 %files 3dfx
