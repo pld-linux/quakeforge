@@ -167,7 +167,7 @@ Klient QuakeForge pod SDL z obs³ug± ró¿nych g³êbi kolorów (8, 16 i
 
 %package sgl
 Summary:	QuakeForge client for SDL with GL
-Summary:	Klient QuakeForge pod SDL z obs³ug± GL
+Summary(pl):	Klient QuakeForge pod SDL z obs³ug± GL
 Group:		Applications/Games
 Requires:	%{name}-libs-gl = %{version}
 
@@ -355,7 +355,7 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/qw-server.cfg
 echo "map e1m3" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/nq-server.cfg
 
 cd $RPM_BUILD_ROOT%{_datadir}/games/%{name}/qw
-ln -sf %{_sysconfdir}/%{name}/qw-server.cfg server.cfg 
+ln -sf %{_sysconfdir}/%{name}/qw-server.cfg server.cfg
 cd -
 
 cd $RPM_BUILD_ROOT/etc/rc.d/init.d
