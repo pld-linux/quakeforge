@@ -32,11 +32,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define 	_xbindir	/usr/X11R6/bin
 
 %ifarch sparc
-%define         _without_alsa   1
+%global			_without_alsa	1
 %endif
 
 %ifnarch %{ix86}
-%define         _without_svga   1
+%global			_without_svga	1
 %endif
 
 %description
