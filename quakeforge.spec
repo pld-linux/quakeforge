@@ -20,6 +20,8 @@ Source2:	%{name}-servers.tgz
 # Source2-md5:	e30556f153d979860bc2e3a9ed598b2b
 Source3:	%{name}.png
 Patch0:		%{name}-alsa.patch
+Patch1:		%{name}-svga-noasm.patch
+Patch2:		%{name}-libdir.patch
 URL:		http://www.quakeforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel
@@ -333,6 +335,8 @@ klientów gry.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 %{__aclocal}
