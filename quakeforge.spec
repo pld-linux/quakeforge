@@ -18,7 +18,7 @@ Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
 Version:	0.5.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Games
 Source0:	http://download.sourceforge.net/quake/%{name}-%{version}.tar.bz2
@@ -328,6 +328,7 @@ klientów gry.
 	--enable-vidmode \
 	--enable-dga \
 	--with-plugin-path=%{_libdir}/%{name} \
+	--with-global-cfg="%{_sysconfdir}/%{name}/%{name}.conf" \
 	--with-user-cfg="~/.%{name}/%{name}.conf" \
 	%{?_without_3dfx:--disable-3dfx} \
 	%{?_without_alsa:--disable-alsa} \
@@ -337,19 +338,26 @@ klientów gry.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_datadir}/games/%{name}/qw} \
+install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,%{name}},%{_datadir}/games/%{name}/qw} \
 	$RPM_BUILD_ROOT{%{_xbindir},%{_pixmapsdir},%{_applnkdir}/Games}
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 %ifnarch ppc
-mv $RPM_BUILD_ROOT%{_bindir}/{%{?!_without_3dfx:*3dfx,}*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
+mv $RPM_BUILD_ROOT{%{_bindir}/{%{?!_without_3dfx:*3dfx,}*glx,*sdl*,*sgl,*x11},%{_xbindir}}
 %else
-mv $RPM_BUILD_ROOT%{_bindir}/{*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
+mv $RPM_BUILD_ROOT%{{_bindir}/{*glx,*sdl*,*sgl,*x11},%{_xbindir}}
 %endif
 
 install  %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
-cp RPM/%{name}.conf $RPM_BUILD_ROOT%{_sysconfdir}
+cp RPM/%{name}.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
+
+touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/qw-server.cfg
+echo "map e1m3" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/nq-server.cfg
+
+cd $RPM_BUILD_ROOT%{_datadir}/games/%{name}/qw
+ln -sf %{_sysconfdir}/%{name}/qw-server.cfg server.cfg 
+cd -
 
 cd $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
 tar zxfv %{SOURCE2}
@@ -368,7 +376,6 @@ for f in $qfver; do
 done
 
 cp doc/man/%{name}* $RPM_BUILD_ROOT%{_mandir}/man1
-rm -rf doc/{CVS,Makefile*,man,config/{CVS,gib/CVS},data/{CVS,docs/CVS},ideas/CVS}
 
 %clean
 %{!?_without_clean:rm -rf $RPM_BUILD_ROOT}
@@ -415,8 +422,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc NEWS TODO ChangeLog doc/*
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
+%doc NEWS TODO ChangeLog doc/[!Mm]*
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/%{name}.conf
 %attr(755,root,root) %{_libdir}/libQFcd.so.*
 %attr(755,root,root) %{_libdir}/libQFconsole.so.*
 %attr(755,root,root) %{_libdir}/libQFcsqc.so.*
@@ -514,10 +521,12 @@ fi
 
 %files servers
 %defattr(644,root,root,755)
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*-server.cfg
 %attr(755,root,root) %{_bindir}/qw-server
 %attr(755,root,root) %{_bindir}/nq-server
 %attr(755,root,root) %{_bindir}/qw-master
 %attr(755,root,root) %{_libdir}/%{name}/console_server.so*
+%{_datadir}/games/%{name}/qw/server.cfg
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/*
 
 %files utils
