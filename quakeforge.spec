@@ -262,6 +262,7 @@ Summary(pl):	QuakeForge - biblioteki renderujace OpenGL
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 Requires:	OpenGL
+Requires(post,postun):	/sbin/ldconfig
 
 %description libs-gl
 QuakeForge - OpenGL renderer libraries.
@@ -274,6 +275,7 @@ Summary:	QuakeForge - Software renderer libraries
 Summary(pl):	QuakeForge - biblioteki do renderowania programowego
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
+Requires(post,postun):	/sbin/ldconfig
 
 %description libs-sw
 QuakeForge - Software renderer libraries.
@@ -426,6 +428,14 @@ rm -rf $RPM_BUILD_ROOT
 %post 	common -p /sbin/ldconfig
 
 %postun common -p /sbin/ldconfig
+
+%post 	libs-gl -p /sbin/ldconfig
+
+%postun libs-gl -p /sbin/ldconfig
+
+%post 	libs-sw -p /sbin/ldconfig
+
+%postun libs-sw -p /sbin/ldconfig
 
 %post servers
 /sbin/chkconfig --add qw-serverd
