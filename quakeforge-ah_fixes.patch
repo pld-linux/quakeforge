@@ -1,0 +1,21 @@
+diff -Nru quakeforge-0.3.0/acconfig.h quakeforge-0.3.0.new/acconfig.h
+--- quakeforge-0.3.0/acconfig.h	Mon Feb 19 15:17:00 2001
++++ quakeforge-0.3.0.new/acconfig.h	Mon Feb 19 15:19:24 2001
+@@ -109,5 +109,17 @@
+ /* Define this if you have fnmatch.h */
+ #undef HAVE_FNMATCH_H
+ 
++/* */
++#undef FS_USERCFG
++
++/* */
++#undef HAVE_FB_AUX_VGA_PLANES_CFB4
++
++/* */
++#undef HAVE_FB_AUX_VGA_PLANES_CFB8
++
++/* */
++#undef HAVE_FB_AUX_VGA_PLANES_VGA4
++
+ @BOTTOM@
+ #endif // __config_h_
