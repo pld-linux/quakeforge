@@ -1,0 +1,5 @@
+- Merged changes from HEAD
+- Updated to 0.5.1.20020814
+- Some changes with QF plugins new style
+- Added cd-xmms subpackage
+- BR xmms-devel, automake >= 1.6
