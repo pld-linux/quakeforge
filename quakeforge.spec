@@ -3,6 +3,14 @@
 # _without_alsa - without ALSA
 # _without_svga - without SVGAlib support
 #
+%ifarch sparc
+%define			_without_alsa	1
+%endif
+
+%ifnarch %{ix86}
+%define			_without_svga	1
+%endif
+
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
@@ -30,14 +38,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
 %define 	_xbindir	/usr/X11R6/bin
-
-%ifarch sparc
-%global			_without_alsa	1
-%endif
-
-%ifnarch %{ix86}
-%global			_without_svga	1
-%endif
 
 %description
 QuakeForge is a source port of Quake and QuakeWorld, the successors to
