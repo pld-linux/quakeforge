@@ -244,16 +244,16 @@ QuakeForge - CD plugin that uses SDL to access drive.
 QuakeForge - wtyczka CD odwo³uj±ca siê do odtwarzacza poprzez SDL.
 
 %package cd-xmms
-Summary:	QuakeForge - xmms CD plugin
-Summary(pl):	QuakeForge - wtyczka CD dla xmms
+Summary:	QuakeForge - XMMS CD plugin
+Summary(pl):	QuakeForge - wtyczka CD dla XMMS-a
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
 %description cd-xmms
-QuakeForge - CD plugin that uses xmms to access drive.
+QuakeForge - CD plugin that uses XMMS to access drive.
 
 %description cd-xmms -l pl
-QuakeForge - wtyczka CD odwo³uj±ca siê do odtwarzacza poprzez xmms.
+QuakeForge - wtyczka CD odwo³uj±ca siê do odtwarzacza poprzez XMMS.
 
 %package libs-gl
 Summary:	QuakeForge - OpenGL renderer libraries
