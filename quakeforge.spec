@@ -25,10 +25,10 @@ URL:		http://www.%{name}.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel
 BuildRequires:	XFree86-devel
+%{!?_without_alsa:BuildRequires: alsa-lib-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1.6
 BuildRequires:	bison
-%{!?_without_alsa:BuildRequires: alsa-lib-devel}
 BuildRequires:	nas-devel
 %{!?_without_svga:BuildRequires: svgalib-devel}
 BuildRequires:	texinfo
@@ -320,8 +320,10 @@ klientów gry.
 %setup -q
 
 %build
+# --without-arch not to override -march passed by %%configure
 %configure \
 	--with-x \
+	--without-arch \
 	--enable-vidmode \
 	--enable-dga \
 	--with-plugin-path=%{_libdir}/%{name} \
