@@ -113,7 +113,7 @@ diff -uNr quakeforge-0.3.0.old/configure.in quakeforge-0.3.0/configure.in
 +AC_REQUIRE([AC_PROG_CC])
 +: ${CCAS='$(CC)'}
 +# Set ASFLAGS if not already set.
-+: ${CCASFLAGS='$(CFLAGS)'}
++: ${CCASFLAGS='$(CFLAGS) $(DEFAULT_INCLUDES)'}
 +AC_SUBST(CCAS)
 +AC_SUBST(CCASFLAGS)])
 +
