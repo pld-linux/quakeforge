@@ -575,6 +575,10 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/cd_sdl.so*
 
+%files cd-xmms
+%defattr(644,root,root,755)
+%attr(755,root,root)%{_libdir}/%{name}/cd_xmms.so*
+
 %files libs-gl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQFmodels_gl.so.*
@@ -594,10 +598,6 @@ fi
 %files snd-oss
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_oss.so*
-
-%files cd-xmms
-%defattr(644,root,root,755)
-%attr(755,root,root)%{_libdir}/%{name}/cd_xmms.so*
 
 %files snd-sdl
 %defattr(644,root,root,755)
