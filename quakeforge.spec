@@ -18,7 +18,7 @@ Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
 Version:	0.5.2
-Release:	2.%{_snapshot}.1
+Release:	2.%{_snapshot}.2
 License:	GPL
 Group:		Applications/Games
 #Source0:	http://download.sourceforge.net/quake/%{name}-%{version}.tar.bz2
@@ -39,30 +39,43 @@ BuildRequires:	nas-devel
 BuildRequires:	texinfo
 BuildRequires:	xmms-devel
 BuildRequires:	zlib-devel
-Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
 
 %description
+3D game engine based on id Software's Quake engine.
+
+%description -l pl
+Silnik gry 3D bazuj±cy na silniku Quake id Software.
+
+%package common
+Summary:	QuakeForge - Common files
+Summary(pl):	QuakeForge - pliki wspólne
+Group:		Applications/Games
+Obsoletes:	%{name} < 0.5.2-2.20030214.2
+
+%description common
 QuakeForge is a source port of Quake and QuakeWorld, the successors to
 id Software's very popular DOOM series. Its primary development goal
 is to remain compatible with the original games released by id
 Software while adding portability and optional extensions to enhance
 gameplay.
+This package contains common files for all game versions.
 
-%description -l pl
+%description common -l pl
 QuakeForge jest portem ¼róde³ gier Quake i QuakeWorld - sukcesorów
 bardzo popularnej serii DOOM firmy id Software. Podstawowym celem
 projektu jest zachowanie zgodno¶ci z oryginalnymi odpowiednikami
 tych¿e gier przy jednoczesnym dodaniu opcjonalnych rozszerzeñ
 s³u¿±cych podniesieniu jako¶ci zabawy.
+Ten pakiet zawiera wspólne pliki dla wszystkich wersji gry.
 
 %package devel
 Summary:	QuakeForge - headers and devel libs
 Summary(pl):	QuakeForge - pliki nag³ówkowe
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description devel
 QuakeForge - headers and devel libs
@@ -86,7 +99,7 @@ Silnik gry 3D QuakeForge - biblioteki statyczne
 Summary:	QuakeForge Servers
 Summary(pl):	Serwery QuakeForge
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description servers
 QuakeForge Servers.
@@ -98,7 +111,7 @@ Serwery QuakeForge.
 Summary:	QuakeForge - utility programs
 Summary(pl):	QuakeForge - programy narzêdziowe
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description utils
 QuakeForge - utility programs.
@@ -210,7 +223,7 @@ Klient QuakeForge pod x11.
 Summary:	QuakeForge - Linux CD plugin
 Summary(pl):	QuakeForge - wtyczka CD dla Linuksa
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description cd-linux
 QuakeForge - native Linux CD plugin.
@@ -223,7 +236,7 @@ Linuksa.
 Summary:	QuakeForge - SDL CD plugin
 Summary(pl):	QuakeForge - wtyczka CD dla SDL
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description cd-sdl
 QuakeForge - CD plugin that uses SDL to access drive.
@@ -235,7 +248,7 @@ QuakeForge - wtyczka CD odwo³uj±ca siê do odtwarzacza poprzez SDL.
 Summary:	QuakeForge - xmms CD plugin
 Summary(pl):	QuakeForge - wtyczka CD dla xmms
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description cd-xmms
 QuakeForge - CD plugin that uses xmms to access drive.
@@ -247,7 +260,7 @@ QuakeForge - wtyczka CD odwo³uj±ca siê do odtwarzacza poprzez xmms.
 Summary:	QuakeForge - OpenGL renderer libraries
 Summary(pl):	QuakeForge - biblioteki renderujace OpenGL
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 Requires:	OpenGL
 
 %description libs-gl
@@ -260,7 +273,7 @@ QuakeForge - biblioteki renderuj±ce z u¿yciem OpenGL.
 Summary:	QuakeForge - Software renderer libraries
 Summary(pl):	QuakeForge - biblioteki do renderowania programowego
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description libs-sw
 QuakeForge - Software renderer libraries.
@@ -272,7 +285,7 @@ QuakeForge - biblioteki do renderowania programowego.
 Summary:	ALSA sound plugin for QuakeForge
 Summary(pl):	Wtyczka d¼wiêkowa ALSA dla QuakeForge
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description snd-alsa
 The ALSA plugin for QuakeForge provides digital audio output for
@@ -286,7 +299,7 @@ klientów gry.
 Summary:	OSS sound plugin for QuakeForge
 Summary(pl):	Wtyczka d¼wiêkowa OSS dla QuakeForge
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description snd-oss
 The OSS plugin for QuakeForge provides digital audio output (using
@@ -310,7 +323,7 @@ k³opoty - spróbuj u¿yæ pakietu %{name}-snd-alsa.
 Summary:	SDL sound plugin for QuakeForge
 Summary(pl):	Wtyczka d¼wiêkowa SDL dla QuakeForge
 Group:		Applications/Games
-Requires:	%{name} = %{version}
+Requires:	%{name}-common = %{version}
 
 %description snd-sdl
 The SDL plugin for QuakeForge provides digital audio output for
@@ -409,7 +422,7 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del nq-serverd
 fi
 
-%files
+%files common
 %defattr(644,root,root,755)
 %doc NEWS TODO ChangeLog doc/[!Mm]*
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/%{name}.conf
