@@ -6,10 +6,6 @@
 
 %define		_snapshot	20030214
 
-%ifarch sparc sparcv9 sparc64
-%define			_without_alsa	1
-%endif
-
 %ifnarch %{ix86} alpha
 %define			_without_svga	1
 %endif
