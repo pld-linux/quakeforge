@@ -422,6 +422,10 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/*.{la,a}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post 	common -p /sbin/ldconfig
+
+%postun common -p /sbin/ldconfig
+
 %post servers
 /sbin/chkconfig --add qw-serverd
 if [ -f /var/lock/subsys/qw-serverd ]; then
