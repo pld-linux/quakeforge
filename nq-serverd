@@ -1,0 +1,54 @@
+#!/bin/sh
+# qw-serverd
+#
+# chkconfig:4 98 10
+# description: NQuake Server
+# Functions library
+
+. /etc/rc.d/init.d/functions
+
+# While nq-server doesn't work without "map" option,
+#  doesn't read any config file and we want "map" option
+# to be configurable - we must do as following:
+map=`grep ^map /etc/quakeforge/nq-server.cfg |sed 's/map //'`
+
+case "$1" in
+  start)
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/nq-serverd ]; then
+		msg_starting "NQuake Server"
+		busy
+    		/usr/bin/nq-server +map $map > /dev/null &
+		deltext
+		ok
+	else
+		msg_Already_Running "NQuake Server"
+	        exit 1
+	fi
+	touch /var/lock/subsys/nq-serverd
+	;;
+  stop)
+
+	if [ -f /var/lock/subsys/nq-serverd ]; then
+		msg_stopping "NQuake Server"
+                killproc nq-server
+                rm -f /var/lock/subsys/nq-serverd
+        else
+                msg_Not_Running "NQuake Server"
+                exit 1
+	fi
+	;;
+  restart|reload)
+        $0 stop
+        $0 start
+        ;;
+  status)
+	status /usr/bin/nq-server
+	exit $?
+	;;
+  *)
+	msg_Usage "$0 {start|stop|restart|reload|status}"
+	exit 1
+esac
+
+exit 0
