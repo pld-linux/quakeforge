@@ -1,3 +1,7 @@
+#
+# Conditional build:
+# bcond_off_alsa - without ALSA
+#
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
@@ -22,7 +26,7 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 %ifnarch sparc
-BuildRequires:	alsa-lib-devel
+%{!?bcond_off_alsa:BuildRequires:	alsa-lib-devel}
 %endif
 BuildRequires:	svgalib-devel
 BuildRequires:	texinfo
@@ -95,7 +99,8 @@ automake -a -c
 	--with-sharepath=%{_datadir}/games/%{name} \
 	--with-global-cfg=%{_sysconfdir}/%{name}.conf \
 	--with-server \
-	--with-newstyle
+	--with-newstyle \
+	%{?bcond_off_alsa:--disable-alsa}
 	
 %{__make}
 
