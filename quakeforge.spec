@@ -39,7 +39,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define         _without_svga   1
 %endif
 
-
 %description
 QuakeForge is a source port of Quake and QuakeWorld, the successors to
 id Software's very popular DOOM series. Its primary development goal
@@ -53,7 +52,6 @@ bardzo popularnej serii DOOM firmy id Software. Podstawowym celem
 projektu jest zachowanie zgodno¶ci z oryginalnymi odpowiednikami
 tych¿e gier przy jednoczesnym dodaniu opcjonalnych rozszerzeñ
 s³u¿±cych podniesieniu jako¶ci zabawy.
-
 
 %package cd-linux
 Summary:	QuakeForge - linux CD plugin
@@ -176,7 +174,6 @@ QuakeForge client for sdl-gl.
 %description sgl -l pl
 Klient QuakeForge pod sdl-gl.
 
-%if %{!?_without_alsa:1}%{?_without_alsa:0}
 %package snd-alsa
 Summary:	ALSA sound plugin for QuakeForge
 Summary(pl):	Wtyczka d¼wiêkowa ALSA dla QuakeForge
@@ -189,8 +186,6 @@ QuakeForge targets that contain clients.
 %description snd-alsa -l pl
 Wtyczka ALSA dla QuakeForge dostarcza cyfrowe wyj¶cie d¼wiêkowe dla
 klientów gry.
-
-%endif
 
 %package snd-oss
 Summary:	OSS sound plugin for QuakeForge
@@ -278,22 +273,23 @@ autoheader
 libtoolize --automake
 %{__automake}
 %{__autoconf}
-%configure 	--with-x \
-		--enable-vidmode \
-		--enable-dga \
-		--with-user-cfg="~/.%{name}/%{name}.conf" \
-		%{?_without_alsa:--disable-alsa} \
-		%{?_without_svga:--without-svga}
+%configure \
+	--with-x \
+	--enable-vidmode \
+	--enable-dga \
+	--with-user-cfg="~/.%{name}/%{name}.conf" \
+	%{?_without_alsa:--disable-alsa} \
+	%{?_without_svga:--without-svga}
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_datadir}/games/%{name}/qw} \
+	$RPM_BUILD_ROOT{%{_xbindir},%{_pixmapsdir},%{_applnkdir}/Games}
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/rc.d/init.d,%{_datadir}/games/%{name}/qw}
-install -d $RPM_BUILD_ROOT{%{_xbindir},%{_pixmapsdir},%{_applnkdir}/Games}
 mv $RPM_BUILD_ROOT%{_bindir}/{*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
 
 install  %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
@@ -383,7 +379,8 @@ fi
 %attr(755,root,root)%{_libdir}/%{name}/libsnd_render_default.so*
 %{_datadir}/games/%{name}/id1/menu.dat*
 %{_pixmapsdir}/%{name}.png
-%{_mandir}/man1/%{name}.1.gz
+%{_mandir}/man1/%{name}.1*
+
 %files cd-linux
 %defattr(644,root,root,755)
 %attr(755,root,root)%{_libdir}/%{name}/libcd_linux.so*
@@ -434,7 +431,7 @@ fi
 %attr(755,root,root)%{_includedir}/QF/GL/*.h
 %attr(755,root,root)%{_includedir}/QF/*.h
 %attr(755,root,root)%{_includedir}/QF/plugin/*.h
-%{_mandir}/man1/qfcc.1.gz
+%{_mandir}/man1/qfcc.1*
 
 %files fbdev
 %defattr(644,root,root,755)
@@ -520,13 +517,13 @@ fi
 
 %{?!_without_svga:%files svga}
 %{?!_without_svga:%defattr(644,root,root,755)}
-%{?!_without_svga:%attr(4755,root,root)%{_bindir}/*svga}
+%{?!_without_svga:%attr(755,root,root)%{_bindir}/*svga}
 
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root)%{_bindir}/pak
 %attr(755,root,root)%{_bindir}/qfprogs
-%{_mandir}/man1/pak.1.gz
+%{_mandir}/man1/pak.1*
 
 %files x11
 %defattr(644,root,root,755)
