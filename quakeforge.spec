@@ -1,15 +1,12 @@
 #
 # Conditional build:
-# _without_alsa - without ALSA
-# _without_svga - without SVGAlib & 3dfx support
+%bcond_without	alsa		# without ALSA
+%bcond_without	svga		# without SVGAlib & 3dfx support
 #
-
-%define		_snapshot	20030214
-
 %ifnarch %{ix86} alpha
-%define			_without_svga	1
+%undefine	with_svga
 %endif
-
+%define		_snapshot	20030214
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
@@ -29,12 +26,12 @@ URL:		http://www.quakeforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel
 BuildRequires:	XFree86-devel
-%{!?_without_alsa:BuildRequires:	alsa-lib-devel}
+%{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1.6
 BuildRequires:	bison
 BuildRequires:	libtool
-%{!?_without_svga:BuildRequires:	svgalib-devel}
+%{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	texinfo
 BuildRequires:	xmms-devel
 BuildRequires:	zlib-devel
@@ -353,9 +350,9 @@ klientów gry.
 	--with-sharepath=%{_datadir}/%{name} \
 	--with-global-cfg="%{_sysconfdir}/%{name}/%{name}.conf" \
 	--with-user-cfg="~/.%{name}/%{name}.conf" \
-	%{?_without_svga:--disable-3dfx} \
-	%{?_without_alsa:--disable-alsa} \
-	%{?_without_svga:--without-svga}
+	%{!?with_svga:--disable-3dfx} \
+	%{!?with_alsa:--disable-alsa} \
+	%{!?with_svga:--without-svga}
 
 %{__make}
 
@@ -385,7 +382,7 @@ cd -
 
 install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-qfver="%{?!_without_3dfx:3dfx }glx sdl sdl32 sgl x11"
+qfver="%{?with_3dfx:3dfx }glx sdl sdl32 sgl x11"
 
 for f in $qfver; do
 	desktopfile="$RPM_BUILD_ROOT%{_applnkdir}/Games/qw-client-$f.desktop"
@@ -490,7 +487,7 @@ fi
 %{_libdir}/%{name}/cd_xmms.la
 %{_libdir}/%{name}/console_client.la
 %{_libdir}/%{name}/console_server.la
-%{!?_without_alsa:%{_libdir}/%{name}/snd_output_alsa*.la}
+%{?with_alsa:%{_libdir}/%{name}/snd_output_alsa*.la}
 %{_libdir}/%{name}/snd_output_disk.la
 %{_libdir}/%{name}/snd_output_oss.la
 %{_libdir}/%{name}/snd_output_sdl.la
@@ -519,7 +516,7 @@ fi
 %{_libdir}/%{name}/cd_xmms.a
 %{_libdir}/%{name}/console_client.a
 %{_libdir}/%{name}/console_server.a
-%{!?_without_alsa:%{_libdir}/%{name}/snd_output_alsa*.a}
+%{?with_alsa:%{_libdir}/%{name}/snd_output_alsa*.a}
 %{_libdir}/%{name}/snd_output_disk.a
 %{_libdir}/%{name}/snd_output_oss.a
 %{_libdir}/%{name}/snd_output_sdl.a
@@ -553,7 +550,7 @@ fi
 %{_mandir}/man1/qflight.1*
 %{_mandir}/man1/qfvis.1*
 
-%if %{?_without_svga:0}%{!?_without_svga:1}
+%if %{with svga}
 %files 3dfx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*3dfx
@@ -584,7 +581,7 @@ fi
 %attr(755,root,root) %{_bindir}/*sgl
 %{_applnkdir}/Games/*sgl.desktop
 
-%if %{?_without_svga:0}%{!?_without_svga:1}
+%if %{with svga}
 %files svga
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*svga
@@ -617,7 +614,7 @@ fi
 %attr(755,root,root) %{_libdir}/libQFmodels_sw.so.*
 %attr(755,root,root) %{_libdir}/libQFrenderer_sw32.so.*
 
-%if %{?_without_alsa:0}%{!?_without_alsa:1}
+%if %{with alsa}
 %files snd-alsa
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa*.so
