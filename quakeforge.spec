@@ -402,7 +402,7 @@ Exec=qw-client-$f
 Icon=%{name}.png
 Terminal=false
 Type=Application
-Categories=Game;FirstPersonGame;
+Categories=Game;X-FPPGame;
 EOF
 	desktopfile="$RPM_BUILD_ROOT%{_desktopdir}/nq-$f.desktop"
 	cat >$desktopfile <<EOF
@@ -413,7 +413,7 @@ Exec=nq-$f
 Icon=%{name}.png
 Terminal=false
 Type=Application
-Categories=Game;FirstPersonGame;
+Categories=Game;X-FPPGame;
 EOF
 done
 
