@@ -15,7 +15,7 @@ Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
 Version:	0.5.1.20020822
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Games
 # From http://www.quakeforge.net/files/quakeforge-current.tar.bz2
@@ -344,7 +344,11 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_datadir}/games/%{name}/qw} \
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
+%ifnarch ppc
 mv $RPM_BUILD_ROOT%{_bindir}/{*3dfx,*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
+%else
+mv $RPM_BUILD_ROOT%{_bindir}/{*glx,*sdl*,*sgl,*x11} $RPM_BUILD_ROOT%{_xbindir}
+%endif
 
 install  %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 cp RPM/%{name}.conf $RPM_BUILD_ROOT%{_sysconfdir}
@@ -529,10 +533,12 @@ fi
 #%{_mandir}/man1/qfprogs.1*
 #%{_mandir}/man1/qfwavinfo.1*
 
+%ifnarch ppc
 %files 3dfx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_xbindir}/*3dfx
 %{_applnkdir}/Games/*3dfx.desktop
+%endif
 
 %files fbdev
 %defattr(644,root,root,755)
