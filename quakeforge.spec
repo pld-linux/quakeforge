@@ -28,6 +28,7 @@ BuildRequires:	SDL-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1.6
+BuildRequires:	bison
 %{!?_without_alsa:BuildRequires: alsa-lib-devel}
 BuildRequires:	nas-devel
 %{!?_without_svga:BuildRequires: svgalib-devel}
