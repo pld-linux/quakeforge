@@ -14,8 +14,8 @@
 Summary:	3D game engine based on id Software's Quake engine
 Summary(pl):	Silnik gry 3D bazuj±cy na silniku Quake id Software
 Name:		quakeforge
-Version:	0.5.1.20020712
-Release:	3
+Version:	0.5.1.20020816
+Release:	1
 License:	GPL
 Group:		Applications/Games
 # From http://www.quakeforge.net/files/quakeforge-current.tar.bz2
@@ -27,11 +27,12 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	automake >= 1.6
 %{!?_without_alsa:BuildRequires: alsa-lib-devel}
 BuildRequires:	nas-devel
 %{!?_without_svga:BuildRequires: svgalib-devel}
 BuildRequires:	texinfo
+BuildRequires:	xmms-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -213,6 +214,18 @@ QuakeForge - CD plugin that uses SDL to access drive.
 %description cd-sdl -l pl
 QuakeForge - wtyczka CD odwo³uj±ca siê do odtwarzacza poprzez SDL.
 
+%package cd-xmms
+Summary:	QuakeForge - xmms CD plugin
+Summary(pl):	QuakeForge - wtyczka CD dla xmms
+Group:		Applications/Games
+Requires:	%{name} = %{version}
+
+%description cd-xmms
+QuakeForge - CD plugin that uses xmms to access drive.
+
+%description cd-xmms -l pl
+QuakeForge - wtyczka CD odwo³uj±ca siê do odtwarzacza poprzez xmms.
+
 %package libs-gl
 Summary:	QuakeForge - OpenGL renderer libraries
 Summary(pl):	QuakeForge - biblioteki renderujace OpenGL
@@ -303,6 +316,7 @@ autoheader
 	--with-x \
 	--enable-vidmode \
 	--enable-dga \
+	--with-plugin-path=%{_libdir}/%{name} \
 	--with-user-cfg="~/.%{name}/%{name}.conf" \
 	%{?_without_alsa:--disable-alsa} \
 	%{?_without_svga:--without-svga}
@@ -397,10 +411,10 @@ fi
 %attr(755,root,root) %{_libdir}/libQFsound.so.*
 %attr(755,root,root) %{_libdir}/libQFutil.so.*
 %dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/libcd_null.so*
-%attr(755,root,root) %{_libdir}/%{name}/libconsole_client.so*
-%attr(755,root,root) %{_libdir}/%{name}/libsnd_output_disk.so*
-%attr(755,root,root) %{_libdir}/%{name}/libsnd_render_default.so*
+%attr(755,root,root) %{_libdir}/%{name}/cd_null.so*
+%attr(755,root,root) %{_libdir}/%{name}/console_client.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_render_default.so*
 %dir %{_datadir}/games/%{name}
 %dir %{_datadir}/games/%{name}/id1
 %{_datadir}/games/%{name}/id1/menu.dat*
@@ -437,16 +451,17 @@ fi
 %attr(755,root,root) %{_libdir}/libQFsound.la
 %attr(755,root,root) %{_libdir}/libQFutil.so
 %attr(755,root,root) %{_libdir}/libQFutil.la
-%attr(755,root,root) %{_libdir}/%{name}/libcd_linux.la
-%attr(755,root,root) %{_libdir}/%{name}/libcd_null.la
-%attr(755,root,root) %{_libdir}/%{name}/libcd_sdl.la
-%attr(755,root,root) %{_libdir}/%{name}/libconsole_client.la
-%attr(755,root,root) %{_libdir}/%{name}/libconsole_server.la
-%{!?_without_alsa:%attr(755,root,root) %{_libdir}/%{name}/libsnd_output_alsa0_5.la}
-%attr(755,root,root) %{_libdir}/%{name}/libsnd_output_disk.la
-%attr(755,root,root) %{_libdir}/%{name}/libsnd_output_oss.la
-%attr(755,root,root) %{_libdir}/%{name}/libsnd_output_sdl.la
-%attr(755,root,root) %{_libdir}/%{name}/libsnd_render_default.la
+%attr(755,root,root) %{_libdir}/%{name}/cd_linux.la
+%attr(755,root,root) %{_libdir}/%{name}/cd_null.la
+%attr(755,root,root) %{_libdir}/%{name}/cd_sdl.la
+%attr(755,root,root) %{_libdir}/%{name}/cd_xmms.la
+%attr(755,root,root) %{_libdir}/%{name}/console_client.la
+%attr(755,root,root) %{_libdir}/%{name}/console_server.la
+%{!?_without_alsa:%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa0_5.la}
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_disk.la
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_oss.la
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_sdl.la
+%attr(755,root,root) %{_libdir}/%{name}/snd_render_default.la
 %{_includedir}/QF
 %{_mandir}/man1/qfcc.1*
 
@@ -465,23 +480,24 @@ fi
 %{_libdir}/libQFrenderer_sw32.a
 %{_libdir}/libQFsound.a
 %{_libdir}/libQFutil.a
-%{_libdir}/%{name}/libcd_linux.a
-%{_libdir}/%{name}/libcd_null.a
-%{_libdir}/%{name}/libcd_sdl.a
-%{_libdir}/%{name}/libconsole_client.a
-%{_libdir}/%{name}/libconsole_server.a
-%{!?_without_alsa:%{_libdir}/%{name}/libsnd_output_alsa0_5.a}
-%{_libdir}/%{name}/libsnd_output_disk.a
-%{_libdir}/%{name}/libsnd_output_oss.a
-%{_libdir}/%{name}/libsnd_output_sdl.a
-%{_libdir}/%{name}/libsnd_render_default.a
+%{_libdir}/%{name}/cd_linux.a
+%{_libdir}/%{name}/cd_null.a
+%{_libdir}/%{name}/cd_sdl.a
+%{_libdir}/%{name}/cd_xmms.a
+%{_libdir}/%{name}/console_client.a
+%{_libdir}/%{name}/console_server.a
+%{!?_without_alsa:%{_libdir}/%{name}/snd_output_alsa0_5.a}
+%{_libdir}/%{name}/snd_output_disk.a
+%{_libdir}/%{name}/snd_output_oss.a
+%{_libdir}/%{name}/snd_output_sdl.a
+%{_libdir}/%{name}/snd_render_default.a
 
 %files servers
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qw-server
 %attr(755,root,root) %{_bindir}/nq-server
 %attr(755,root,root) %{_bindir}/qw-master
-%attr(755,root,root) %{_libdir}/%{name}/libconsole_server.so*
+%attr(755,root,root) %{_libdir}/%{name}/console_server.so*
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/*
 
 %files utils
@@ -527,11 +543,11 @@ fi
 
 %files cd-linux
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/libcd_linux.so*
+%attr(755,root,root) %{_libdir}/%{name}/cd_linux.so*
 
 %files cd-sdl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/libcd_sdl.so*
+%attr(755,root,root) %{_libdir}/%{name}/cd_sdl.so*
 
 %files libs-gl
 %defattr(644,root,root,755)
@@ -546,13 +562,17 @@ fi
 %if %{?_without_alsa:0}%{!?_without_alsa:1}
 %files snd-alsa
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/libsnd_output_alsa0_5.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_alsa0_5.so*
 %endif
 
 %files snd-oss
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/libsnd_output_oss.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_oss.so*
+
+%files cd-xmms
+%defattr(644,root,root,755)
+%attr(755,root,root)%{_libdir}/%{name}/cd_xmms.so*
 
 %files snd-sdl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/libsnd_output_sdl.so*
+%attr(755,root,root) %{_libdir}/%{name}/snd_output_sdl.so*
