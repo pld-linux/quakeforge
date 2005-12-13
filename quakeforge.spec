@@ -36,8 +36,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake >= 1.6
 BuildRequires:	bison
 BuildRequires:	libtool
-BuildRequires:	rpmbuild(macros) >= 1.176
 BuildRequires:	libvorbis-devel
+BuildRequires:	rpmbuild(macros) >= 1.176
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	xmms-devel
 BuildRequires:	zlib-devel
@@ -104,9 +104,9 @@ Silnik gry 3D QuakeForge - biblioteki statyczne
 Summary:	QuakeForge Servers
 Summary(pl):	Serwery QuakeForge
 Group:		Applications/Games
-PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-common = %{version}-%{release}
+Requires:	rc-scripts
 
 %description servers
 QuakeForge Servers.
@@ -250,8 +250,8 @@ QuakeForge - file based CD plugin, oggs, wavs and midis can be used
 for background music. Default CD plugin for all platforms.
 
 %description cd-file -l pl
-QuakeForge - oprta o pliki wtyczka CD, pliki ogg, wav i mid mog±
-byæ u¿yte jako podk³ad muzyczny. Domy¶lna wtyczka CD dla wszystkich
+QuakeForge - oprta o pliki wtyczka CD, pliki ogg, wav i mid mog± byæ
+u¿yte jako podk³ad muzyczny. Domy¶lna wtyczka CD dla wszystkich
 platform.
 
 %package cd-sdl
@@ -485,7 +485,7 @@ fi
 %defattr(644,root,root,755)
 %doc NEWS TODO ChangeLog doc/[!Mm]*
 %dir %{_sysconfdir}/%{name}
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/%{name}.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/%{name}.conf
 %attr(755,root,root) %{_libdir}/libQFcd.so.*.*.*
 %attr(755,root,root) %{_libdir}/libQFconsole.so.*.*.*
 %attr(755,root,root) %{_libdir}/libQFgamecode.so.*.*.*
@@ -564,7 +564,7 @@ fi
 
 %files servers
 %defattr(644,root,root,755)
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*-server.cfg
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/*-server.cfg
 %attr(755,root,root) %{_bindir}/hw-master
 %attr(755,root,root) %{_bindir}/qw-master
 %attr(755,root,root) %{_bindir}/qw-server
