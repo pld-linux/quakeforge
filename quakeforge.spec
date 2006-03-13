@@ -37,7 +37,7 @@ BuildRequires:	automake >= 1.6
 BuildRequires:	bison
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel
-BuildRequires:	rpmbuild(macros) >= 1.176
+BuildRequires:	rpmbuild(macros) >= 1.268
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	xmms-devel
 BuildRequires:	zlib-devel
@@ -403,7 +403,7 @@ touch $RPM_BUILD_ROOT%{_datadir}/%{name}/tracklist.cfg
 touch $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/qw-server.cfg
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
-install %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT/etc/rc.d/init.d/
+install %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT/etc/rc.d/init.d
 install %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/qw
 
 qfver="glx sdl sdl32 sgl x11"
@@ -451,33 +451,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %post servers
 /sbin/chkconfig --add qw-serverd
-if [ -f /var/lock/subsys/qw-serverd ]; then
-	/etc/rc.d/init.d/qw-serverd restart 1>&2
-else
-	%banner %{name}-servers -e << EOF
-Run \"/etc/rc.d/init.d/qw-serverd start\" to start QuakeWorld Server.
-EOF
-fi
+%service qw-serverd restart "QuakeWorld Server"
+
 /sbin/chkconfig --add nq-serverd
-if [ -f /var/lock/subsys/nq-serverd ]; then
-	/etc/rc.d/init.d/nq-serverd restart 1>&2
-else
-	%banner %{name}-servers -e << EOF
-Run \"/etc/rc.d/init.d/nq-serverd start\" to start NQuake Server.
-EOF
-fi
+%service nq-serverd restart "NQuake Server"
 
 %preun servers
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/qw-serverd ]; then
-		/etc/rc.d/init.d/qw-serverd stop 1>&2
-	fi
+	%service qw-serverd stop
 	/sbin/chkconfig --del qw-serverd
-fi
-if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/nq-serverd ]; then
-		/etc/rc.d/init.d/nq-serverd stop 1>&2
-	fi
+
+	%service nq-serverd stop
 	/sbin/chkconfig --del nq-serverd
 fi
 
