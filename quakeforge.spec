@@ -10,7 +10,7 @@
 %bcond_without	svga		# without SVGAlib & 3dfx support
 #
 Summary:	3D game engine based on id Software's Quake engine
-Summary(pl.UTF-8):   Silnik gry 3D bazujący na silniku Quake id Software
+Summary(pl.UTF-8):	Silnik gry 3D bazujący na silniku Quake id Software
 Name:		quakeforge
 Version:	0.5.5
 Release:	0.9
@@ -54,7 +54,7 @@ Silnik gry 3D bazujący na silniku Quake id Software.
 
 %package common
 Summary:	QuakeForge - Common files
-Summary(pl.UTF-8):   QuakeForge - pliki wspólne
+Summary(pl.UTF-8):	QuakeForge - pliki wspólne
 Group:		Applications/Games
 Obsoletes:	quakeforge < 0.5.2-2.20030214.2
 
@@ -78,7 +78,7 @@ Ten pakiet zawiera wspólne pliki dla wszystkich wersji gry.
 
 %package devel
 Summary:	QuakeForge - headers and devel libs
-Summary(pl.UTF-8):   QuakeForge - pliki nagłówkowe
+Summary(pl.UTF-8):	QuakeForge - pliki nagłówkowe
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
@@ -90,7 +90,7 @@ QuakeForge - pliki nagłówkowe
 
 %package static
 Summary:	QuakeForge 3D game engine - static libraries
-Summary(pl.UTF-8):   Silnik gry 3D QuakeForge - biblioteki statyczne
+Summary(pl.UTF-8):	Silnik gry 3D QuakeForge - biblioteki statyczne
 Group:		Applications/Games
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -102,7 +102,7 @@ Silnik gry 3D QuakeForge - biblioteki statyczne
 
 %package servers
 Summary:	QuakeForge Servers
-Summary(pl.UTF-8):   Serwery QuakeForge
+Summary(pl.UTF-8):	Serwery QuakeForge
 Group:		Applications/Games
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-common = %{version}-%{release}
@@ -116,7 +116,7 @@ Serwery QuakeForge.
 
 %package utils
 Summary:	QuakeForge - utility programs
-Summary(pl.UTF-8):   QuakeForge - programy narzędziowe
+Summary(pl.UTF-8):	QuakeForge - programy narzędziowe
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
@@ -128,7 +128,7 @@ QuakeForge - programy narzędziowe.
 
 %package 3dfx
 Summary:	QuakeForge client for 3dfx
-Summary(pl.UTF-8):   Klient QuakeForge pod 3dfx
+Summary(pl.UTF-8):	Klient QuakeForge pod 3dfx
 Group:		Applications/Games
 Requires:	%{name}-libs-gl = %{version}-%{release}
 
@@ -140,7 +140,7 @@ Klient QuakeForge pod 3dfx.
 
 %package fbdev
 Summary:	QuakeForge client for fbdev
-Summary(pl.UTF-8):   Klient QuakeForge pod fbdev
+Summary(pl.UTF-8):	Klient QuakeForge pod fbdev
 Group:		Applications/Games
 Requires:	%{name}-libs-sw = %{version}-%{release}
 
@@ -152,7 +152,7 @@ Klient QuakeForge pod framebuffer.
 
 %package glx
 Summary:	QuakeForge glx client
-Summary(pl.UTF-8):   Klient QuakeForge glx
+Summary(pl.UTF-8):	Klient QuakeForge glx
 Group:		X11/Applications/Games
 Requires:	%{name}-libs-gl = %{version}-%{release}
 
@@ -165,7 +165,7 @@ GLX.
 
 %package sdl
 Summary:	QuakeForge client for SDL with 8-bit color
-Summary(pl.UTF-8):   Klient QuakeForge pod SDL z 8-bitowym kolorem
+Summary(pl.UTF-8):	Klient QuakeForge pod SDL z 8-bitowym kolorem
 Group:		Applications/Games
 Requires:	%{name}-libs-sw = %{version}-%{release}
 
@@ -177,7 +177,7 @@ Klient QuakeForge pod SDL z 8-bitowym kolorem.
 
 %package sdl32
 Summary:	QuakeForge client for SDL with various color depths support
-Summary(pl.UTF-8):   Klient QuakeForge pod SDL z obsługą różnych głębi kolorów
+Summary(pl.UTF-8):	Klient QuakeForge pod SDL z obsługą różnych głębi kolorów
 Group:		Applications/Games
 Requires:	%{name}-libs-sw = %{version}-%{release}
 
@@ -191,7 +191,7 @@ Klient QuakeForge pod SDL z obsługą różnych głębi kolorów (8, 16 i
 
 %package sgl
 Summary:	QuakeForge client for SDL with GL
-Summary(pl.UTF-8):   Klient QuakeForge pod SDL z obsługą GL
+Summary(pl.UTF-8):	Klient QuakeForge pod SDL z obsługą GL
 Group:		X11/Applications/Games
 Requires:	%{name}-libs-gl = %{version}-%{release}
 
@@ -203,7 +203,7 @@ Klient QuakeForge pod SDL, używający OpenGL za pośrednictwem SDL.
 
 %package svga
 Summary:	QuakeForge client for svgalib
-Summary(pl.UTF-8):   Klient QuakeForge pod svgalib
+Summary(pl.UTF-8):	Klient QuakeForge pod svgalib
 Group:		Applications/Games
 Requires:	%{name}-libs-sw = %{version}-%{release}
 Obsoletes:	quakeforge-svgalib
@@ -216,7 +216,7 @@ Klient QuakeForge pod svgalib.
 
 %package x11
 Summary:	QuakeForge client for x11
-Summary(pl.UTF-8):   Klient QuakeForge pod x11
+Summary(pl.UTF-8):	Klient QuakeForge pod x11
 Group:		X11/Applications/Games
 Requires:	%{name}-libs-sw = %{version}-%{release}
 
@@ -228,7 +228,7 @@ Klient QuakeForge pod x11.
 
 %package cd-linux
 Summary:	QuakeForge - Linux CD plugin
-Summary(pl.UTF-8):   QuakeForge - wtyczka CD dla Linuksa
+Summary(pl.UTF-8):	QuakeForge - wtyczka CD dla Linuksa
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
@@ -241,7 +241,7 @@ Linuksa.
 
 %package cd-file
 Summary:	QuakeForge - File CD plugin
-Summary(pl.UTF-8):   QuakeForge - wtyczka CD
+Summary(pl.UTF-8):	QuakeForge - wtyczka CD
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
@@ -256,7 +256,7 @@ platform.
 
 %package cd-sdl
 Summary:	QuakeForge - SDL CD plugin
-Summary(pl.UTF-8):   QuakeForge - wtyczka CD dla SDL
+Summary(pl.UTF-8):	QuakeForge - wtyczka CD dla SDL
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
@@ -268,7 +268,7 @@ QuakeForge - wtyczka CD odwołująca się do odtwarzacza poprzez SDL.
 
 %package cd-xmms
 Summary:	QuakeForge - XMMS CD plugin
-Summary(pl.UTF-8):   QuakeForge - wtyczka CD dla XMMS-a
+Summary(pl.UTF-8):	QuakeForge - wtyczka CD dla XMMS-a
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
@@ -280,7 +280,7 @@ QuakeForge - wtyczka CD odwołująca się do odtwarzacza poprzez XMMS.
 
 %package libs-gl
 Summary:	QuakeForge - OpenGL renderer libraries
-Summary(pl.UTF-8):   QuakeForge - biblioteki renderujace OpenGL
+Summary(pl.UTF-8):	QuakeForge - biblioteki renderujace OpenGL
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 Requires:	OpenGL
@@ -293,7 +293,7 @@ QuakeForge - biblioteki renderujące z użyciem OpenGL.
 
 %package libs-sw
 Summary:	QuakeForge - Software renderer libraries
-Summary(pl.UTF-8):   QuakeForge - biblioteki do renderowania programowego
+Summary(pl.UTF-8):	QuakeForge - biblioteki do renderowania programowego
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
@@ -305,7 +305,7 @@ QuakeForge - biblioteki do renderowania programowego.
 
 %package snd-alsa
 Summary:	ALSA sound plugin for QuakeForge
-Summary(pl.UTF-8):   Wtyczka dźwiękowa ALSA dla QuakeForge
+Summary(pl.UTF-8):	Wtyczka dźwiękowa ALSA dla QuakeForge
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
@@ -319,7 +319,7 @@ klientów gry.
 
 %package snd-oss
 Summary:	OSS sound plugin for QuakeForge
-Summary(pl.UTF-8):   Wtyczka dźwiękowa OSS dla QuakeForge
+Summary(pl.UTF-8):	Wtyczka dźwiękowa OSS dla QuakeForge
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
@@ -343,7 +343,7 @@ kłopoty - spróbuj użyć pakietu %{name}-snd-alsa.
 
 %package snd-sdl
 Summary:	SDL sound plugin for QuakeForge
-Summary(pl.UTF-8):   Wtyczka dźwiękowa SDL dla QuakeForge
+Summary(pl.UTF-8):	Wtyczka dźwiękowa SDL dla QuakeForge
 Group:		Applications/Games
 Requires:	%{name}-common = %{version}-%{release}
 
